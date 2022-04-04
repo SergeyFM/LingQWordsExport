@@ -4,6 +4,9 @@ fun main(args: Array<String>) {
     println("Settings from config.ini: \n" + settings.ini.map{(k,v)-> " > $k -> $v"}.joinToString("\n"))
     val cnn_attr = Connection(settings["connectionString"], settings["APIKey"])
     val lingq = Connector()
+    
+    print("Test connection ... ")
+    println( if(lingq.isConnectionOK(cnn_attr)) "OK" else "SOMETHING WRONG!" )
 
     val languages = lingq.getListOfLanguages(cnn_attr)
     println("LingQ languages and known words:\n" + languages.map{" > $it"}.joinToString("\n"))

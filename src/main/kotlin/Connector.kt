@@ -5,7 +5,17 @@ import java.net.http.HttpResponse
 
 class Connector {
     // Responsible for all LingQ communications
-
+    fun isConnectionOK(cnn: Connection): Boolean {
+        val client = HttpClient.newBuilder().build()
+        val request = HttpRequest.newBuilder()
+            .uri(URI.create(cnn.connectionString+"v2/contexts/"))
+            .header("Authorization",  "Token " + cnn.APIKey)
+            .build();
+        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+        val ret = response.body()
+        return "knownWords" in ret
+    }
+    
     fun getListOfLanguages(cnn: Connection): List<String> {
         // returns the list of languages with amount of known words
         val client = HttpClient.newBuilder().build()
