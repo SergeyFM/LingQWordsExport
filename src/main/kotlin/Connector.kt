@@ -44,8 +44,8 @@ class Connector {
         // returns the list of words from LingQ: Word, Translation, Status
         if(pages_limit<1) return listOf<Word>()
         val words = mutableListOf<Word>()
+        val client = HttpClient.newBuilder().build()
         for(page in (1..pages_limit)) {
-            val client = HttpClient.newBuilder().build()
             val request = HttpRequest.newBuilder()
                 .uri(URI.create(cnn.connectionString+"v2/$lang_code/cards/?page_size=25&page=$page"))
                 .header("Authorization","Token "+cnn.APIKey)
@@ -67,6 +67,7 @@ class Connector {
                 if(new_word.w.length>0) words += new_word
             }
         }
+        print("|")
         return words
     }
     
@@ -81,7 +82,7 @@ class Connector {
         println(" $counter changed. ")
         return transformed_words
     }
-    
+//companion object {
     private fun takeWordFromSentence(w:String, s:String): String {
         // finds case-insensitive w_ord in the s_entence, gets it from there, or returns w_ord
         val ind = s.indexOf(w,0,true)
@@ -93,5 +94,6 @@ class Connector {
         }
         return s.substring(ind..w.length+ind-1)
     }
+//}
 
 }

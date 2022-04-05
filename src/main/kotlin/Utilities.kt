@@ -37,7 +37,7 @@ fun saveFile(data: List<Any>, pathfile: String): String {
         }
     } catch (ex: Exception) {
         println("ERROR " + ex.message)
-        return ""
+        return "ERROR"
     }
-    return pathfile
+    return "OK"
 }

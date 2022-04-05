@@ -14,25 +14,35 @@ internal class tests {
     internal fun testOfTheTest() {
         Assertions.assertEquals(1,1)
     }
-    
-    /*@Test
+    /*
+    @Test
+    @Disabled
     fun takeWordFromSentence() {
-        var word = "ladentüren"
-        var sentence = "trotz geschlossener Ladentüren weiter Bücher verkauft"
-        var new_word = takeWordFromSentence(word,sentence)
-        Assertions.assertEquals("Ladentüren",new_word,"when in the middle of the string")
-
-        //sentence = "Ladentüren trotz geschlossener  weiter Bücher verkauft"
-        //new_word = takeWordFromSentence(word,sentence)
-        //Assertions.assertEquals("ladentüren",new_word,"at the beginning")
+        with(Connector) {
+            var word = "ladentüren"
+            var sentence = "trotz geschlossener Ladentüren weiter Bücher verkauft"
+            var new_word = takeWordFromSentence(word,sentence)
+            Assertions.assertEquals("Ladentüren",new_word,"when in the middle of the string")
     
-        sentence = "trotz geschlossener. Ladentüren weiter Bücher verkauft"
-        new_word = takeWordFromSentence(word,sentence)
-        Assertions.assertEquals("ladentüren",new_word,"after a dot")
- 
-        word = "mit füßen getreten"
-        sentence = "dass das internationale System mit Füßen getreten wird"
-        new_word = takeWordFromSentence(word,sentence)
-        Assertions.assertEquals("mit Füßen getreten",new_word,"sentence in the middle")
-    } */
+            //sentence = "Ladentüren trotz geschlossener  weiter Bücher verkauft"
+            //new_word = takeWordFromSentence(word,sentence)
+            //Assertions.assertEquals("ladentüren",new_word,"at the beginning")
+        
+            sentence = "trotz geschlossener. Ladentüren weiter Bücher verkauft"
+            new_word = takeWordFromSentence(word,sentence)
+            Assertions.assertEquals("ladentüren",new_word,"after a dot")
+     
+            word = "mit füßen getreten"
+            sentence = "dass das internationale System mit Füßen getreten wird"
+            new_word = takeWordFromSentence(word,sentence)
+            Assertions.assertEquals("mit Füßen getreten",new_word,"sentence in the middle")
+        
+            word = "wellblechfassade"
+            sentence = "corrugated iron facade\tEine Festung mit Wellblechfassade-"
+            new_word = takeWordFromSentence(word,sentence)
+            Assertions.assertEquals("Wellblechfassade",new_word,"word with - at the end")
+        }
+    }
+    
+     */
 }

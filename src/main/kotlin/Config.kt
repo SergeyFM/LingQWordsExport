@@ -1,9 +1,20 @@
-class Config {
+import java.io.File
+import java.lang.Exception
+
+class Config (val path: String) {
     // reads config.ini
     val ini: Map<String,String>
     init {
         //println("Config.ini:")
-        val txt: String = this::class.java.classLoader.getResource("config.ini").readText()
+        //val txt: String = this::class.java.classLoader.getResource("config.ini").readText()
+        var txt = ""
+        try {
+            val f = File("$path\\config.ini")
+            txt = f.readText()
+        } catch(ex: Exception) {
+            println("ERROR: " + ex.message)
+            System.exit(-1)
+        }
         ini = txt.split("\n").mapNotNull{line->
             //println(" > $line")
             val two = line.split("=")
