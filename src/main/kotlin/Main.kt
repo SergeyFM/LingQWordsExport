@@ -1,4 +1,4 @@
-fun main(args: Array<String>) {
+fun main() {
     println("\n   -=< LingQ Words Export >=-   \n")
     val path = System.getProperty("user.dir")
     println("Working Directory: $path")
