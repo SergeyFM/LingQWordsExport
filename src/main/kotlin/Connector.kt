@@ -6,6 +6,7 @@ import java.net.http.HttpResponse
 class Connector {
     // Responsible for all LingQ communications
     fun isConnectionOK(cnn: Connection): Boolean {
+        try {
         val client = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder()
             .uri(URI.create(cnn.connectionString+"v2/contexts/"))
@@ -14,6 +15,10 @@ class Connector {
         val response = client.send(request, HttpResponse.BodyHandlers.ofString())
         val ret = response.body()
         return "knownWords" in ret
+        } catch(ex: Exception) {
+            println("ERROR: " + ex)
+            return false
+        }
     }
     
     fun getListOfLanguages(cnn: Connection): List<String> {

@@ -9,7 +9,8 @@ fun main(args: Array<String>) {
     val lingq = Connector()
     
     print("Test connection ... ")
-    println( if(lingq.isConnectionOK(cnn_attr)) "OK" else "SOMETHING WRONG!" )
+    if(lingq.isConnectionOK(cnn_attr)) println("OK")
+    else {println("SOMETHING WRONG!"); System.exit(-1)}
 
     val languages = lingq.getListOfLanguages(cnn_attr)
     println("LingQ languages and known words:\n" + languages.map{" > $it"}.joinToString("\n"))
