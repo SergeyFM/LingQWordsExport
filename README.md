@@ -12,9 +12,9 @@ The words are then saved to a text file, delimited by tabs.
 
 2) Edit config.ini: <br>
 APIKey=xxx  // your LingQ key, use "LingQ API Key.url" to get it  <br>
-file_name=lingq_words.txt // the app saves your words, tab separated  <br>
-lang_code=de // language code, run app once to read available languages  <br>
-max_pages=20000 // maximum pages (25 words per page) <br>
+file_name=lingq_words.txt // a file to save words to <br>
+lang_code=de // language code, run app to see all available codes  <br>
+max_pages=20000 // maximum pages that the app will read (25 words per page) <br>
 transform_words=yes // "yes" for case correction  <br>
 
 3) Run LingQWordsExport_RUN.bat (displays Java version and runs the app).
