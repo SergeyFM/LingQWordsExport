@@ -4,9 +4,15 @@ import java.lang.Exception
 // utilities
 
 fun getJSONproperty(field: String, str: String): String {
-    if(field !in str) return ""
-    return str.substringAfter(field).dropWhile{it in " \":"}
-        .takeWhile {it !in ",\""}.trim()
+    if(field !in str) {
+        println("getJSONproperty: [$field] is not found in [$str]")
+        return ""
+    }
+    return str.replace("\n"," ")
+        .substringAfter(field)
+        .dropWhile{it in " \":"}
+        .substringBefore("\",")
+        .substringBefore((",\""))
 }
 
 fun unEscapeUnicode(txt: String): String {

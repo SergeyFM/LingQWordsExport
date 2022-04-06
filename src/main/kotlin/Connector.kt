@@ -30,7 +30,7 @@ class Connector {
             .build();
         val response = client.send(request, HttpResponse.BodyHandlers.ofString())
         val ret = response.body()
-        return ret.replace("\"","").split("{").filter{"knownWords" in it}
+        return ret.split("{").filter{"knownWords" in it}
             .map{line->
                 "id:" + getJSONproperty("id",line) + " code:" +
                 getJSONproperty("code",line) + " \t" +
@@ -59,8 +59,8 @@ class Connector {
             val response = client.send(request,HttpResponse.BodyHandlers.ofString())
             val ret = response.body()
             if("""{"detail":"Invalid page."}""" in ret || ret.length<30) break
-            print("|$page")
-            ret.split("\"pk\":").forEach {w_def->
+            print("|$page" + if(page%23==0) "\n" else "")
+            ret.replace("\t"," ").split("\"pk\":").filter{"text" in it}.forEach {w_def->
                 val term = unEscapeUnicode(getJSONproperty("term",w_def)).trim()
                 val new_word = Word(
                     term,

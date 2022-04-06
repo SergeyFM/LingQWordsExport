@@ -1,5 +1,9 @@
-fun main() {
+fun main(args : Array<String>) {
+    
     println("\n   -=< LingQ Words Export >=-   \n")
+    
+    if(args.isNotEmpty()) println("No args accepted, use config.ini")
+    
     val path = System.getProperty("user.dir")
     println("Working Directory: $path")
     
@@ -27,8 +31,18 @@ fun main() {
     if(transf_words.size>0) {
         val file = settings["file_name"]
         val pathfile = "$path\\$file"
-        print("Saving to $pathfile... ")
-        val saved = saveFile(transf_words,pathfile)
-        println(saved)
+        var one_more_time = false
+        do {
+            print("Saving to $pathfile... ")
+            val saved = saveFile(transf_words,pathfile)
+            println(saved)
+            if(saved!="OK") {
+                print(" saving wasn't OK, try one more time? y/n ")
+                val reply: String = readLine()?.uppercase() ?: "N"
+                println("REPLY: [$reply]")
+                one_more_time = if(reply=="Y") true else false
+            }
+        } while(saved!="OK" && one_more_time==true)
+        
     } else println("Nothing to save.")
 }
