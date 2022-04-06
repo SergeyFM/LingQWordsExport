@@ -19,7 +19,7 @@ fun main(args : Array<String>) {
     val languages = lingq.getListOfLanguages(cnn_attr)
     println("LingQ languages and known words:\n" + languages.map{" > $it"}.joinToString("\n"))
     
-    print("Downloading words from the LingQ, pages: ")
+    print("Downloading words from LingQ, pages: ")
     val my_words = lingq.getListOfWords(cnn_attr,settings["lang_code"],settings["max_pages"].toInt())
     println("\n Words: ${my_words.size}")
     
