@@ -47,3 +47,23 @@ fun saveFile(data: List<Any>, pathfile: String): String {
     }
     return "OK"
 }
+
+fun loadWordsFromFile(pathfile: String): List<Connector.Word> {
+    var txt = ""
+    try {
+        val f = File(pathfile)
+        txt = f.readText()
+    } catch(ex: Exception) {
+        println("ERROR: " + ex.message)
+        return listOf<Connector.Word>()
+    }
+    val ret: List<Connector.Word> = txt.split("\n").mapNotNull {line->
+        val p = line.split("\t").map{it.trim()}
+        if(p.size==5) Connector.Word(
+            p[0], p[1], p[2],
+            p[3].toIntOrNull()?:0,
+            p[4].toIntOrNull()?:0
+        ) else null
+    }
+    return ret
+}

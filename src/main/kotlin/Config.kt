@@ -5,8 +5,6 @@ class Config (val path: String) {
     // reads config.ini
     val ini: Map<String,String>
     init {
-        //println("Config.ini:")
-        //val txt: String = this::class.java.classLoader.getResource("config.ini").readText()
         var txt = ""
         try {
             val f = File("$path\\config.ini")

@@ -39,7 +39,12 @@ class Connector {
         }
     }
 
-    data class Word (val w: String, val t: String, val f: String, val s: Int, val n: Int) {
+    data class Word (
+        val w: String,  // the word
+        val t: String,  // a translation
+        val f: String,  // an example sentence, fragment
+        val s: Int,     // status 0-3
+        val n: Int) {   // numbers of words in the word (more than one means a sentence)
         override fun toString() = this::class.java.declaredFields.filter{it.name!="INSTANCE"}
             .map{it.get(this).toString()}.joinToString("\t")
     }
