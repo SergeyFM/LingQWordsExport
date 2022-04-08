@@ -1,5 +1,10 @@
 import java.io.File
 import java.lang.Exception
+import java.net.URI
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
+import java.time.Duration
 
 // utilities
 
@@ -49,6 +54,8 @@ fun saveFile(data: List<Any>, pathfile: String): String {
 }
 
 fun loadWordsFromFile(pathfile: String): List<Connector.Word> {
+    // parses a file of words into List<Word>
+    
     var txt = ""
     try {
         val f = File(pathfile)
@@ -66,4 +73,26 @@ fun loadWordsFromFile(pathfile: String): List<Connector.Word> {
         ) else null
     }
     return ret
+}
+
+fun downloadGooleAudio(pathfile: String, lang_code: String, the_word: String): String {
+    // download audio data from google.translate to a file
+    val gURL = "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=$the_word&tl=$lang_code&client=tw-ob"
+    try {
+        val f = File(pathfile)
+        val client = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_1_1)
+            .connectTimeout(Duration.ofSeconds(10))
+            .build()
+        val request = HttpRequest.newBuilder()
+            .uri(URI.create(gURL))
+            .build()
+        print("<")
+        val response = client.send(request,HttpResponse.BodyHandlers.ofFile(f.toPath()))
+        print(">")
+        return if(response.statusCode()==200) "OK" else "NOT OK"
+    } catch(ex: Exception) {
+        println("ERROR: " + ex.message)
+        return "FAILED"
+    }
 }
