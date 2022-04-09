@@ -75,11 +75,15 @@ fun loadWordsFromFile(pathfile: String): List<Connector.Word> {
     return ret
 }
 
-fun downloadGooleAudio(pathfile: String, lang_code: String, the_word: String): String {
+fun downloadGooleAudio(pathfile: String, lang_code: String, the_word: String, rewrite: Boolean = true): String {
     // download audio data from google.translate to a file
     val gURL = "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=$the_word&tl=$lang_code&client=tw-ob"
     try {
         val f = File(pathfile)
+        if(!rewrite && f.exists()) {
+            println("File already exists: " + pathfile)
+            return "ALREADY EXISTS"
+        }
         val client = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_1_1)
             .connectTimeout(Duration.ofSeconds(10))

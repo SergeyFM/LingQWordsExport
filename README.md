@@ -13,11 +13,13 @@ The words are then saved to a text file, delimited by tabs.
 2) Edit config.ini: <br>
 APIKey=xxx  // your LingQ key, use "LingQ API Key.url" to get it  <br>
 file_name=lingq_words.txt // a file to save words to <br>
+words_src=lingq // lingq: download files form LingQ, file: from the file <br>
 lang_code=de // language code, run app to see all available codes  <br>
 max_pages=20000 // maximum pages that the app will read (25 words per page) <br>
 transform_words=yes // "yes" for case correction  <br>
+download_mp3s=yes // save google-translate mp3s for each word
 
-3) Run LingQWordsExport_RUN.bat (displays Java version and runs the app).
+4) Run LingQWordsExport_RUN.bat (displays Java version and runs the app).
 
 A resulting file can be imported in Excel - use UTF-8 charset, tab-separated. 
 To test it all, I recommend running the app once with max_pages set to 2. 
