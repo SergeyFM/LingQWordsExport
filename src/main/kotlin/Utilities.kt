@@ -80,9 +80,12 @@ fun downloadGooleAudio(pathfile: String, lang_code: String, the_word: String, re
     val gURL = "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=$the_word&tl=$lang_code&client=tw-ob"
     try {
         val f = File(pathfile)
-        if(!rewrite && f.exists()) {
-            println("File already exists: " + pathfile)
-            return "ALREADY EXISTS"
+        if(f.exists()) {
+            if(rewrite) f.delete()
+            else {
+                print("#")
+                return "OK"
+            }
         }
         val client = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_1_1)
@@ -100,3 +103,5 @@ fun downloadGooleAudio(pathfile: String, lang_code: String, the_word: String, re
         return "FAILED"
     }
 }
+
+fun wordToFilename(word: String): String = word.replace(" ","_").filter{it.isLetterOrDigit()}+".mp3"

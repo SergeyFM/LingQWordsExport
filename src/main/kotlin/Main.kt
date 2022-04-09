@@ -68,7 +68,7 @@ fun main(args : Array<String>) {
         var saved_files_counter = 0
         for(word in transf_words) {
             var stopit = false
-            val mp3filename: String = word.w.replace(" ","_").filter{it.isLetterOrDigit()}+".mp3"
+            val mp3filename: String = wordToFilename(word.w)
             do {
                 val saved = downloadGooleAudio("$path\\mp3\\$mp3filename",lang_code,word.w,false)
                 if(saved!="OK") {
@@ -82,6 +82,6 @@ fun main(args : Array<String>) {
             } while(saved!="OK" && one_more_time==true)
             if(stopit) break
         }
-        print("$saved_files_counter files saved")
+        print("\n $saved_files_counter files saved")
     }
 }
