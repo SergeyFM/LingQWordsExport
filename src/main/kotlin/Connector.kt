@@ -85,7 +85,8 @@ class Connector {
         // take the words from example sentences, for LingQ is case-insensitive
         var counter = 0
         val transformed_words = words.map {word->
-            val new_word = takeWordFromSentence(word.w,word.f)
+            val word_to_try = replaceSomeCharacters(word.w)
+            val new_word = takeWordFromSentence(word_to_try,word.f)
             if(word.w!=new_word) counter++
             Word(new_word,word.t,word.f,word.s,word.n)
         }
@@ -103,6 +104,13 @@ class Connector {
             else -> break
         }
         return s.substring(ind..w.length+ind-1)
+    }
+    
+    private fun replaceSomeCharacters(w:String): String {
+        val to_replace = mapOf("ﬂ" to "fl")
+        return w.map {c->
+            to_replace["$c"]?:"$c"
+        }.joinToString("")
     }
 //}
 
