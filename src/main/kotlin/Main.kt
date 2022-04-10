@@ -37,34 +37,34 @@ fun main(args : Array<String>) {
         print("Read $pathfile...")
         loadWordsFromFile(pathfile)
     }
-    println("\n Words: ${my_words.size}")
+    println(" ${my_words.size} words")
    
-   // ---------------------------------- Fix word's capitalization -----------------------------------------------------
+   // --------------------------------- Fix word's capitalization ------------------------------------------------------
     val transf_words = if(settings["transform_words"]=="yes") {
         print("Get words from the example sentences...")
         lingq.transformWords(my_words)
     } else my_words
     
     // --------------------------------- Save words to a *.txt file ----------------------------------------------------
-    if(transf_words.size>0 && settings["save_results_to_file"]=="yes") {
-        one_more_time = false
-        do {
-            print("Save to $pathfile... ")
-            val saved = saveFile(transf_words,pathfile)
-            println(saved)
-            if(saved!="OK") {
-                print("\n saving wasn't OK, try one more time? y/n ___ ")
-                val reply: String = readLine()?.uppercase() ?: "N"
-                println("REPLY: [$reply]")
-                one_more_time = if(reply=="Y") true else false
-            }
-        } while(saved!="OK" && one_more_time==true)
-        
-    } else println("Nothing to save.")
+    if(settings["save_results_to_file"]=="yes") {
+            one_more_time = false
+            do {
+                print("Save to $pathfile... ")
+                val saved = saveFile(transf_words,pathfile)
+                println(saved)
+                if(saved=="Nothing") break
+                if(saved!="OK") {
+                    print("\n saving wasn't OK, try one more time? y/n ___ ")
+                    val reply: String = readLine()?.uppercase() ?: "N"
+                    println("REPLY: [$reply]")
+                    one_more_time = if(reply=="Y") true else false
+                }
+            } while(saved!="OK" && one_more_time==true)
+    }
     
     // --------------------------------- Download mp3 files ------------------------------------------------------------
-    print("Download mp3 for words... ")
-    if(transf_words.size>0 && settings["download_mp3s"]=="yes") {
+    if(settings["download_mp3s"]=="yes") {
+        print("Download mp3 for words... ")
         var saved_files_counter = 0
         for(word in transf_words) {
             var stopit = false
@@ -82,6 +82,32 @@ fun main(args : Array<String>) {
             } while(saved!="OK" && one_more_time==true)
             if(stopit) break
         }
-        print("\n $saved_files_counter files saved")
+        println("\n $saved_files_counter files saved")
     }
+    
+    //--------------------------------- Generate HTML file -------------------------------------------------------------
+    if(transf_words.size>0 && settings["generate_html"]=="yes") {
+        val SPLIT_LIMIT = 10000
+        val html_filename = settings["file_name_html"]
+        print("Generate HTML file $html_filename ... ")
+        if(transf_words.size>SPLIT_LIMIT) {
+            println(" \n there are too many words, html file will be split:")
+            val first_letters = transf_words.mapNotNull{it.w.firstOrNull()?.uppercaseChar()}.distinct().sorted().filter{it.isLetter()}
+            first_letters.forEach {letter->
+                val html_pathfile = "$path\\html\\$letter" + "_" + html_filename
+                val select = transf_words.filter{it.w.firstOrNull()?.uppercaseChar()==letter}
+                print("$letter:${select.size}")
+                val save_html_res = saveToHTMLfile(select,html_pathfile)
+                print(":$save_html_res ")
+            }
+        } else {
+            val html_pathfile = "$path\\html\\" + html_filename
+            val save_html_res = saveToHTMLfile(transf_words,html_pathfile)
+            print(save_html_res)
+        }
+        println("\n .")
+    }
+    
+    
+    
 }
