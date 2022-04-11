@@ -107,11 +107,12 @@ class Connector {
     }
     
     private fun replaceSomeCharacters(w:String): String {
-        val to_replace = mapOf("ﬂ" to "fl")
+        val to_replace = mapOf("ﬂ" to "fl", "%" to "")
         return w.map {c->
             to_replace["$c"]?:"$c"
         }.joinToString("")
     }
-//}
-
+    
+    
+    
 }

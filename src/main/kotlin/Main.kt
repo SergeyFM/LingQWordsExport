@@ -7,7 +7,6 @@ fun main(args : Array<String>) {
     val path = System.getProperty("user.dir")
     println("Working Directory: $path")
     
-    var one_more_time = false
     
     // --------------------------------- Read settings -----------------------------------------------------------------
     val settings = Config(path)
@@ -24,10 +23,12 @@ fun main(args : Array<String>) {
     else {println("SOMETHING WRONG!"); System.exit(-1)}
 
     // --------------------------------- Display a list of languages ---------------------------------------------------
-    print("LingQ languages and known words: ")
-    val languages = lingq.getListOfLanguages(cnn_attr)
-    if(languages.size==0) println(" NONE")
-    else println("\n" + languages.map{" > $it"}.joinToString("\n"))
+    if(settings["display_languages"]=="yes") {
+        print("LingQ languages and known words: ")
+        val languages = lingq.getListOfLanguages(cnn_attr)
+        if(languages.size==0) println(" NONE")
+        else println("\n" + languages.map{" > $it"}.joinToString("\n"))
+    }
     
     // --------------------------------- Download words definitions ----------------------------------------------------
     val my_words = if(settings["words_src"]=="lingq") {
@@ -47,46 +48,51 @@ fun main(args : Array<String>) {
     
     // --------------------------------- Save words to a *.txt file ----------------------------------------------------
     if(settings["save_results_to_file"]=="yes") {
-            one_more_time = false
-            do {
-                print("Save to $pathfile... ")
-                val saved = saveFile(transf_words,pathfile)
-                println(saved)
-                if(saved=="Nothing") break
-                if(saved!="OK") {
-                    print("\n saving wasn't OK, try one more time? y/n ___ ")
-                    val reply: String = readLine()?.uppercase() ?: "N"
-                    println("REPLY: [$reply]")
-                    one_more_time = if(reply=="Y") true else false
-                }
-            } while(saved!="OK" && one_more_time==true)
+        var one_more_time = false
+        do {
+            print("Save to $pathfile... ")
+            val saved = saveFile(transf_words,pathfile)
+            println(saved)
+            if(saved=="Nothing") break
+            if(saved!="OK") {
+                print("\n saving wasn't OK, try one more time? y/n ___ ")
+                val reply: String = readLine()?.uppercase() ?: "N"
+                println("REPLY: [$reply]")
+                one_more_time = if(reply=="Y") true else false
+            }
+        } while(saved!="OK" && one_more_time==true)
     }
     
     // --------------------------------- Download mp3 files ------------------------------------------------------------
     if(settings["download_mp3s"]=="yes") {
         print("Download mp3 for words... ")
         var saved_files_counter = 0
-        for(word in transf_words) {
-            var stopit = false
-            val mp3filename: String = wordToFilename(word.w)
-            do {
-                val saved = downloadGooleAudio("$path\\mp3\\$mp3filename",lang_code,word.w,false)
-                if(saved!="OK") {
-                    print("\n something was wrong with $mp3filename, try one more time? y/n \n" +
-                            " or press x to abort downloading ___")
-                    val reply: String = readLine()?.uppercase() ?: "N"
-                    println("REPLY: [$reply]")
-                    one_more_time = if(reply=="Y") true else false
-                    stopit = if(reply=="X") true else false
-                } else saved_files_counter++
-            } while(saved!="OK" && one_more_time==true)
-            if(stopit) break
+        var existing_files_counter = 0
+        for(word in transf_words.sortedBy{it.w.uppercase()}) {
+            val mp3filename: String = wordToFilename(word.w,".mp3")
+            val saved = downloadGooleAudio("$path\\mp3\\$mp3filename",lang_code,word.w,false)
+            if(saved=="OK") saved_files_counter++
+            if(saved=="EXISTS") existing_files_counter++
         }
-        println("\n $saved_files_counter files saved")
+        println("\n $saved_files_counter new files, $existing_files_counter already exist")
+    }
+    
+    // --------------------------------- Download pictures -------------------------------------------------------------
+    if(settings["download_pics"]=="yes") {
+        print("Download pictures for words... ")
+        var saved_files_counter = 0
+        var existing_files_counter = 0
+        for(word in transf_words.sortedBy{it.w.uppercase()}) {
+            val pic_filename: String = wordToFilename(word.w,".jpeg")
+            val saved = downloadPicture("$path\\pic\\$pic_filename",lang_code,word.w,false)
+            if(saved=="OK") saved_files_counter++
+            if(saved=="EXISTS") existing_files_counter++
+        }
+        println("\n $saved_files_counter new files, $existing_files_counter already exist")
     }
     
     //--------------------------------- Generate HTML file -------------------------------------------------------------
-    if(transf_words.size>0 && settings["generate_html"]=="yes") {
+    if(settings["generate_html"]=="yes") {
         val SPLIT_LIMIT = 10000
         val html_filename = settings["file_name_html"]
         print("Generate HTML file $html_filename ... ")
@@ -100,14 +106,18 @@ fun main(args : Array<String>) {
                 val save_html_res = saveToHTMLfile(select,html_pathfile)
                 print(":$save_html_res ")
             }
+            println("")
         } else {
             val html_pathfile = "$path\\html\\" + html_filename
             val save_html_res = saveToHTMLfile(transf_words,html_pathfile)
-            print(save_html_res)
+            println("$save_html_res")
         }
-        println("\n .")
     }
     
+    //--------------------------------- Generate import file for Anki --------------------------------------------------
+    if(settings["generate_anki"]=="yes") {
     
+    
+    }
     
 }
