@@ -2,6 +2,8 @@
 Will export all your words from LingQ https://lingq.com
 to a tab-separated UTF-8 text file.
 
+THE APP IS UNDER ACTIVE DEVELOPMENT RIGHT NOW, EVERYTHING'S PROVIDED AS IS...
+
 I bring to your attention a program for importing words from LingQ. 
 Unfortunately, LingQ keeps words case-insensitive. 
 Therefore, I added a case correction function to the program - 
