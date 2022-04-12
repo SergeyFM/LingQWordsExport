@@ -79,7 +79,7 @@ fun downloadGooleAudio(pathfile: String, lang_code: String, the_word_: String, r
         if(f.exists()) {
             if(rewrite) f.delete()
             else {
-                print("•")
+                print("░")
                 return "EXISTS"
             }
         }
@@ -91,15 +91,16 @@ fun downloadGooleAudio(pathfile: String, lang_code: String, the_word_: String, r
             .uri(URI.create(gURL))
             .build()
         val response = client.send(request,HttpResponse.BodyHandlers.ofFile(f.toPath()))
-        print("■")
+        print("▓")
         return if(response.statusCode()==200) "OK" else "NOT OK"
     } catch(ex: Exception) {
-        println("\nERROR: [$the_word] " + ex.message)
+        println("\nERROR: [$the_word] " + ex)
         return "FAILED"
     }
 }
 
-fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, rewrite: Boolean = true): String {
+
+fun downloadPicture_old(pathfile: String, lang_code: String, the_word_: String, rewrite: Boolean = true): String {
     // downloads a first picture for the word from google images
     //https://www.google.com/search?q=überlegenswert&tbm=isch --> blocks
     //https://yandex.ru/images/search?text=%C3%BCberlegenswert --> poor quality search
@@ -126,8 +127,8 @@ fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, rewr
         val pic_link = ret.first()
             .substringAfter("src=\"")
             .substringBefore("\"")
-    //------------------ download a pic ---------------
-
+        //------------------ download a pic ---------------
+        
         val fclient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_1_1)
             .connectTimeout(Duration.ofSeconds(10))
@@ -140,6 +141,67 @@ fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, rewr
         return if(fresponse.statusCode()==200) "OK" else "NOT OK"
     } catch(ex: Exception) {
         println("\nERROR: " + ex.message)
+        return "FAILED"
+    }
+}
+
+
+fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, rewrite: Boolean = true, engine: String = "bing"): String {
+    // downloads a first picture for the word from google images
+    try {
+        val f = File(pathfile)
+        if(f.exists()) {
+            if(rewrite) f.delete()
+            else {
+                print("░")
+                return "EXISTS"
+            }
+        }
+        //------------------ get the link to a pic --------
+        val the_word = the_word_.replace(" ","%20")
+        val gURL = when(engine) {
+            "bing" -> "https://www.bing.com/images/search?q=$the_word%20*%20${getLanguageByCode(lang_code)}%20" + the_word.dropLast(1)   //bing
+            else -> "https://www.google.com/search?q=$the_word%20*%20${getLanguageByCode(lang_code)}&tbm=isch" //google
+        }
+        val the_header = when(engine) {
+            "bing" -> "Mozilla/4.0 (compatible;MSIE 5.5; Windows 98)"
+            else -> "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko"
+        }
+        val client = HttpClient.newBuilder().build()
+        val request = HttpRequest.newBuilder()
+            .uri(URI.create(gURL))
+            .header("User-Agent", the_header)
+            .header("Accept-Language", "en-US,en")
+            .build();
+        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+        val ret_body = response.body()
+        //println(">>>$ret_body")
+        val ret = when(engine) {
+            "bing" -> ret_body.split("img_cont hoff").drop(1).filter{"img class=\"mimg\"" in it} //bing
+            else -> ret_body.split("<table class=").drop(1).filter{"<img class=" in it} //google
+        }
+        if(ret.size<1) {print("X"); return "$the_word_: NO PICTURE"}
+        
+        val pic_link = ret.first()
+            .substringAfter(" src=\"")
+            .substringBefore("\"")
+            .substringBefore("<")
+        //println(">>>> $pic_link")
+        
+        //------------------ download a pic ---------------
+        val fclient = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_1_1)
+            .connectTimeout(Duration.ofSeconds(10))
+            .build()
+        val frequest = HttpRequest.newBuilder()
+            .uri(URI.create(pic_link))
+            .build()
+        val fresponse = fclient.send(frequest,HttpResponse.BodyHandlers.ofFile(f.toPath()))
+        print("▓")
+        return if(fresponse.statusCode()==200) "OK" else "NOT OK"
+    } catch(ex: Exception) {
+        //println("\nERROR: " + ex)
+        print("†")
         return "FAILED"
     }
 }

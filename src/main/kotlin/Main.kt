@@ -66,9 +66,12 @@ fun main(args : Array<String>) {
     // --------------------------------- Download mp3 files ------------------------------------------------------------
     if(settings["download_mp3s"]=="yes") {
         print("Download mp3 for words... ")
+        var current_letter = ""
         var saved_files_counter = 0
         var existing_files_counter = 0
-        for(word in transf_words.sortedBy{it.w.uppercase()}) {
+        for(word in transf_words.sortedBy{it.w}) {
+            val first_letter = word.w.take(1)
+            if(first_letter!=current_letter) {current_letter=first_letter; print("\n$first_letter: ")}
             val mp3filename: String = wordToFilename(word.w,".mp3")
             val saved = downloadGooleAudio("$path\\mp3\\$mp3filename",lang_code,word.w,false)
             if(saved=="OK") saved_files_counter++
@@ -79,16 +82,24 @@ fun main(args : Array<String>) {
     
     // --------------------------------- Download pictures -------------------------------------------------------------
     if(settings["download_pics"]=="yes") {
-        print("Download pictures for words... ")
+        val engine = settings["download_pics_from"]
+        print("Download pictures for words ($engine)... ")
+        var current_letter = ""
         var saved_files_counter = 0
         var existing_files_counter = 0
-        for(word in transf_words.sortedBy{it.w.uppercase()}) {
+        var something_wrong = 0
+        for(word in transf_words.sortedBy{it.w}) {
+            val first_letter = word.w.take(1)
+            if(first_letter!=current_letter) {current_letter=first_letter; print("\n$first_letter: ")}
             val pic_filename: String = wordToFilename(word.w,".jpeg")
-            val saved = downloadPicture("$path\\pic\\$pic_filename",lang_code,word.w,false)
-            if(saved=="OK") saved_files_counter++
-            if(saved=="EXISTS") existing_files_counter++
+            val saved = downloadPicture("$path\\pic\\$pic_filename",lang_code,word.w,false,engine)
+            when(saved) {
+                "OK" -> saved_files_counter++
+                "EXISTS" -> existing_files_counter++
+                else -> something_wrong++
+            }
         }
-        println("\n $saved_files_counter new files, $existing_files_counter already exist")
+        println("\n $saved_files_counter new files, $existing_files_counter already exist, $something_wrong errors")
     }
     
     //--------------------------------- Generate HTML file -------------------------------------------------------------
