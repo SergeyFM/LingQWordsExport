@@ -92,7 +92,7 @@ fun main(args : Array<String>) {
             val first_letter = word.w.take(1)
             if(first_letter!=current_letter) {current_letter=first_letter; print("\n$first_letter: ")}
             val pic_filename: String = wordToFilename(word.w,".jpeg")
-            val saved = downloadPicture("$path\\pic\\$pic_filename",lang_code,word.w,false,engine)
+            val saved = downloadPicture("$path\\pic\\$pic_filename",lang_code,word.w,word.t+" "+word.f,false,engine)
             when(saved) {
                 "OK" -> saved_files_counter++
                 "EXISTS" -> existing_files_counter++
