@@ -84,6 +84,9 @@ fun downloadGooleAudio(pathfile: String, lang_code: String, the_word_: String, r
                 return "EXISTS"
             }
         }
+        
+        TimeUnit.MILLISECONDS.sleep( (1L..50L).random() ) // <--- random delay
+    
         val client = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_1_1)
             .connectTimeout(Duration.ofSeconds(10))
@@ -114,7 +117,7 @@ fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, the_
             }
         }
         
-        TimeUnit.MILLISECONDS.sleep( (1L..250L).random() ) // <--- random delay
+        TimeUnit.MILLISECONDS.sleep( (1L..150L).random() ) // <--- random delay
     
         //------------------ get the link to a pic --------
         val the_word = the_word_.filter{it.isLetterOrDigit() || it in " "}.replace(" ","%20")
@@ -134,7 +137,7 @@ fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, the_
         }
         val client = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder()
-            .timeout(Duration.ofSeconds(5))
+            .timeout(Duration.ofSeconds(10))
             .uri(URI.create(gURL))
             .header("User-Agent", the_header)
             .header("Accept-Language", "en-US,en")

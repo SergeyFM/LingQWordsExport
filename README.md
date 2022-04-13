@@ -27,6 +27,15 @@ A resulting file can be imported in Excel - use UTF-8 charset, tab-separated.
 To test it all, I recommend running the app once with max_pages set to 2. 
 After you've made sure you got the words saved, change it to 20000 or so.
 
+5) Use word-list from html folder to review exported data.
+6) Import data in Anki. First import LingQ words.apkg to create initial note and cards. <br>
+Then import a file that contains following fields: <br>
+* Word
+* Translation
+* Example
+* Audio
+* Image
+
 I wish y'all success with language learning!
 
 Sergey Svistunov
