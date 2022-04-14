@@ -1,39 +1,37 @@
+val path = System.getProperty("user.dir")
+val settings = Config(path)
+
 fun main(args : Array<String>) {
     
     println("\n   -=< LingQ Words Export >=-   \n")
     
     if(args.isNotEmpty()) println("No args accepted, use config.ini")
     
-    val path = System.getProperty("user.dir")
-    println("Working Directory: $path")
-    
-    
     // --------------------------------- Read settings -----------------------------------------------------------------
-    val settings = Config(path)
+    println("Working Directory: $path")
     println("Settings from config.ini: \n" + settings.ini.map{(k,v)-> " > $k -> $v"}.joinToString("\n"))
     val cnn_attr = Connection(settings["connectionString"], settings["APIKey"])
-    val lingq = Connector()
     val file = settings["file_name"]
     val pathfile = "$path\\$file"
     val lang_code = settings["lang_code"]
     
     // --------------------------------- Test connection to LingQ API --------------------------------------------------
     print("Test connection ... ")
-    if(lingq.isConnectionOK(cnn_attr)) println("OK")
+    if(isConnectionOK(cnn_attr)) println("OK")
     else {println("SOMETHING WRONG!"); System.exit(-1)}
 
     // --------------------------------- Display a list of languages ---------------------------------------------------
     if(settings["display_languages"]=="yes") {
         print("LingQ languages and known words: ")
-        val languages = lingq.getListOfLanguages(cnn_attr)
+        val languages = getListOfLanguages(cnn_attr)
         if(languages.size==0) println(" NONE")
         else println("\n" + languages.map{" > $it"}.joinToString("\n"))
     }
     
     // --------------------------------- Download words definitions ----------------------------------------------------
-    val my_words = if(settings["words_src"]=="lingq") {
+    val my_words: List<Word> = if(settings["words_src"]=="lingq") {
         print("Download words from LingQ, pages: ")
-        lingq.getListOfWords(cnn_attr,lang_code,settings["max_pages"].toInt())
+        getListOfWords(cnn_attr,lang_code,settings["max_pages"].toInt())
     } else {
         print("Read $pathfile...")
         loadWordsFromFile(pathfile)
@@ -41,9 +39,9 @@ fun main(args : Array<String>) {
     println(" ${my_words.size} words")
    
    // --------------------------------- Fix word's capitalization ------------------------------------------------------
-    val transf_words = if(settings["transform_words"]=="yes") {
+    val transf_words: List<Word> = if(settings["transform_words"]=="yes") {
         print("Get words from the example sentences...")
-        lingq.transformWords(my_words)
+        transformWords(my_words)
     } else my_words
     
     // --------------------------------- Save words to a *.txt file ----------------------------------------------------
@@ -72,10 +70,13 @@ fun main(args : Array<String>) {
         var existing_files_counter = 0
         var something_wrong = 0
         for(word in transf_words.sortedBy{it.w}) {
+            val first_letter = word.w.take(1)
+            if(first_letter!=current_letter) {
+                current_letter=first_letter
+                print("\n$first_letter (" + transf_words.count{it.w.first()==first_letter.first()} + "):")
+            }
             for(attempt in (1..MAX_ATTEMPTS)) {
                 if(attempt>1) print(attempt)
-                val first_letter = word.w.take(1)
-                if(first_letter!=current_letter) {current_letter=first_letter; print("\n$first_letter: ")}
                 val mp3filename: String = wordToFilename(word.w,".mp3")
                 val saved = downloadGooleAudio("$path\\mp3\\$mp3filename",lang_code,word.w,false)
                 when(saved) {
@@ -98,10 +99,13 @@ fun main(args : Array<String>) {
         var existing_files_counter = 0
         var something_wrong = 0
         for(word in transf_words.sortedBy{it.w}) {
+            val first_letter = word.w.take(1)
+            if(first_letter!=current_letter) {
+                current_letter=first_letter
+                print("\n$first_letter (" + transf_words.count{it.w.first()==first_letter.first()} + "):")
+            }
             for(attempt in (1..MAX_ATTEMPTS)) {
                 if(attempt>1) print(attempt)
-                val first_letter = word.w.take(1)
-                if(first_letter!=current_letter) {current_letter=first_letter; print("\n$first_letter: ")}
                 val pic_filename: String = wordToFilename(word.w,".jpeg")
                 val saved = downloadPicture("$path\\pic\\$pic_filename",lang_code,word.w,word.t+" "+word.f,false,engine)
                 when(saved) {
