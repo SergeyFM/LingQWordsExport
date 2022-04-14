@@ -3,8 +3,10 @@ import java.lang.Exception
 
 // Saves or reads file with the words
 
-fun wordToFilename(word: String, ext: String): String = word.replace(" ","_").filter{it.isLetterOrDigit()}+ext
-
+fun wordToFilename(word: String, ext: String): String =
+    // returns a filename from a word
+    word.filter{it.isLetterOrDigit()}+ext
+    //word.replace("  "," ").replace(" ","_").filter{it.isLetterOrDigit() || it=='_'}+ext
 
 fun saveFile(data: List<Any>, pathfile: String): String {
     // saves file to disk

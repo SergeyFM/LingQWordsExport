@@ -30,12 +30,12 @@ After you've made sure you got the words saved, change it to 20000 or so.
 5) Use word-list from html folder to review exported data.
 6) Import data in Anki. First import LingQ words.apkg to create initial note and cards. <br>
 Then import a file that contains following fields: <br>
-* Word
-* Translation
-* Example
-* Audio
-* Image
+   * Word
+   * Translation
+   * Example
+   * Audio
+   * Image
 
-I wish y'all success with language learning!
+I wish y'all huge success with language learning!
 
 Sergey Svistunov

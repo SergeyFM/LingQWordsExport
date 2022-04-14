@@ -12,11 +12,12 @@ data class Connection(
 )
 
 data class Word (
-    val w: String,  // the word
-    val t: String,  // a translation
-    val f: String,  // an example sentence, fragment
-    val s: Int,     // status 0-3
-    val n: Int) {   // numbers of words in the word (more than one means a sentence)
+    val word: String,           // the word
+    val translation: String,    // a translation
+    val fragment: String,       // an example sentence, fragment
+    val status: Int,            // status 0-3, 3 is known
+    val numOfWords: Int)        // numbers of words in the word (more than one means a sentence)
+{
     override fun toString() = this::class.java.declaredFields.filter{it.name!="INSTANCE"}
         .map{it.get(this).toString()}.joinToString("\t")
 }
@@ -80,7 +81,7 @@ fun getListOfWords(cnn: Connection, lang_code: String, pages_limit: Int): List<W
                 getJSONproperty("status",w_def).toIntOrNull()?:0,
                 term.count{it==' '}+1
             )
-            if(new_word.w.length>0) words += new_word
+            if(new_word.word.length>0) words += new_word
         }
     }
     print("|")
@@ -91,10 +92,10 @@ fun transformWords(words: List<Word>): List<Word> {
     // take the words from example sentences, for LingQ is case-insensitive
     var counter = 0
     val transformed_words = words.map {word->
-        val word_to_try = replaceSomeCharacters(word.w)
-        val new_word = takeWordFromSentence(word_to_try,word.f)
-        if(word.w!=new_word) counter++
-        Word(new_word,word.t,word.f,word.s,word.n)
+        val word_to_try = replaceSomeCharacters(word.word)
+        val new_word = takeWordFromSentence(word_to_try,word.fragment)
+        if(word.word!=new_word) counter++
+        Word(new_word,word.translation,word.fragment,word.status,word.numOfWords)
     }
     println(" $counter changed. ")
     return transformed_words

@@ -3,7 +3,7 @@ import java.lang.Exception
 
 class Config (val path: String) {
     // reads config.ini
-    val ini: Map<String,String>
+    val ini: MutableMap<String,String>
     init {
         var txt = ""
         try {
@@ -13,12 +13,14 @@ class Config (val path: String) {
             println("ERROR: " + ex.message)
             System.exit(-1)
         }
-        ini = txt.split("\n").mapNotNull{line->
+        ini = txt.split("\n").filter{"=" in it}.mapNotNull{line->
             val two = line.split("=")
-            if(two.first().length>0 && two.last().length>0 && two.size==2)
+            if(two.first().length>0)
                 Pair(two.first().trim(),two.last().trim())
             else null
-        }.toMap()
+        }.toMap().toMutableMap()
+        // get my test api key
+        if(ini["APIKey"].isNullOrBlank()) ini["APIKey"] = readFile("$path\\LINGQ_API.KEY")
      }
     operator fun get(k: String): String = ini[k] ?: ""
 }

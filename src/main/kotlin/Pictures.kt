@@ -7,7 +7,7 @@ import java.net.http.HttpResponse
 import java.time.Duration
 import java.util.concurrent.TimeUnit
 
-// Get some pics for the words
+// Get pictures from a search engine for the words
 
 
 fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, the_word2_: String, rewrite: Boolean = true, engine: String = "bing"): String {
@@ -22,7 +22,7 @@ fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, the_
             }
         }
         
-        TimeUnit.MILLISECONDS.sleep( (1L..150L).random() ) // <--- random delay
+        TimeUnit.MILLISECONDS.sleep( (1L..50L).random() ) // <--- random delay
         
         //------------------ get the link to a pic --------
         val the_word = the_word_.filter{it.isLetterOrDigit() || it in " "}.replace(" ","%20")
@@ -40,7 +40,9 @@ fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, the_
                 "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko")[(0..2).random()]
             
         }
-        val client = HttpClient.newBuilder().build()
+        val client = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(10))
+            .build()
         val request = HttpRequest.newBuilder()
             .timeout(Duration.ofSeconds(10))
             .uri(URI.create(gURL))
@@ -65,7 +67,6 @@ fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, the_
             .substringAfter(" src=\"")
             .substringBefore("\"")
             .substringBefore("<")
-        //println(">>>> $pic_link")
         
         //------------------ download a pic ---------------
         val fclient = HttpClient.newBuilder()
@@ -79,7 +80,6 @@ fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, the_
         print("▓")
         return if(fresponse.statusCode()==200) "OK" else "NOT OK"
     } catch(ex: Exception) {
-        println("\nERROR: " + ex)
         print("†")
         return "FAILED"
     }

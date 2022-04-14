@@ -18,7 +18,7 @@ fun main(args : Array<String>) {
     // --------------------------------- Test connection to LingQ API --------------------------------------------------
     print("Test connection ... ")
     if(isConnectionOK(cnn_attr)) println("OK")
-    else {println("SOMETHING WRONG!"); System.exit(-1)}
+    else {println("SOMETHING WRONG!")}
 
     // --------------------------------- Display a list of languages ---------------------------------------------------
     if(settings["display_languages"]=="yes") {
@@ -69,16 +69,16 @@ fun main(args : Array<String>) {
         var saved_files_counter = 0
         var existing_files_counter = 0
         var something_wrong = 0
-        for(word in transf_words.sortedBy{it.w}) {
-            val first_letter = word.w.take(1)
+        for(word in transf_words.sortedBy{it.word}) {
+            val first_letter = word.word.take(1)
             if(first_letter!=current_letter) {
                 current_letter=first_letter
-                print("\n$first_letter (" + transf_words.count{it.w.first()==first_letter.first()} + "):")
+                print("\n$first_letter (" + transf_words.count{it.word.first()==first_letter.first()} + "):")
             }
             for(attempt in (1..MAX_ATTEMPTS)) {
                 if(attempt>1) print(attempt)
-                val mp3filename: String = wordToFilename(word.w,".mp3")
-                val saved = downloadGooleAudio("$path\\mp3\\$mp3filename",lang_code,word.w,false)
+                val mp3filename: String = wordToFilename(word.word,".mp3")
+                val saved = downloadGooleAudio("$path\\mp3\\$mp3filename",lang_code,word.word,false)
                 when(saved) {
                     "OK" -> {saved_files_counter++; break}
                     "EXISTS" -> {existing_files_counter++; break}
@@ -98,16 +98,16 @@ fun main(args : Array<String>) {
         var saved_files_counter = 0
         var existing_files_counter = 0
         var something_wrong = 0
-        for(word in transf_words.sortedBy{it.w}) {
-            val first_letter = word.w.take(1)
+        for(word in transf_words.sortedBy{it.word}) {
+            val first_letter = word.word.take(1)
             if(first_letter!=current_letter) {
                 current_letter=first_letter
-                print("\n$first_letter (" + transf_words.count{it.w.first()==first_letter.first()} + "):")
+                print("\n$first_letter (" + transf_words.count{it.word.first()==first_letter.first()} + "):")
             }
             for(attempt in (1..MAX_ATTEMPTS)) {
                 if(attempt>1) print(attempt)
-                val pic_filename: String = wordToFilename(word.w,".jpeg")
-                val saved = downloadPicture("$path\\pic\\$pic_filename",lang_code,word.w,word.t+" "+word.f,false,engine)
+                val pic_filename: String = wordToFilename(word.word,".jpeg")
+                val saved = downloadPicture("$path\\pic\\$pic_filename",lang_code,word.word,word.translation+" "+word.fragment,false,engine)
                 when(saved) {
                     "OK" -> {saved_files_counter++; break}
                     "EXISTS" -> {existing_files_counter++; break}
@@ -125,10 +125,10 @@ fun main(args : Array<String>) {
         print("Generate HTML file $html_filename ... ")
         if(transf_words.size>SPLIT_LIMIT) {
             println(" \n there are too many words, html file will be split:")
-            val first_letters = transf_words.mapNotNull{it.w.firstOrNull()?.uppercaseChar()}.distinct().sorted().filter{it.isLetter()}
+            val first_letters = transf_words.mapNotNull{it.word.firstOrNull()?.uppercaseChar()}.distinct().sorted().filter{it.isLetter()}
             first_letters.forEach {letter->
                 val html_pathfile = "$path\\html\\$letter" + "_" + html_filename
-                val select = transf_words.filter{it.w.firstOrNull()?.uppercaseChar()==letter}
+                val select = transf_words.filter{it.word.firstOrNull()?.uppercaseChar()==letter}
                 print("$letter:${select.size}")
                 val save_html_res = saveToHTMLfile(select,html_pathfile)
                 print(":$save_html_res ")
@@ -143,8 +143,21 @@ fun main(args : Array<String>) {
     
     //--------------------------------- Generate import file for Anki --------------------------------------------------
     if(settings["generate_anki"]=="yes") {
-    
-    
+        var one_more_time = false
+        val words_num = transf_words.size
+        val anki_file = "$path\\anki\\" + settings["file_name_anki"]
+        do {
+            print("Save $words_num words to an Anki-file $pathfile... ")
+            val saved = saveToAnkiFile(transf_words,anki_file)
+            println(saved)
+            if(saved=="Nothing") break
+            if(saved!="OK") {
+                print("\n saving wasn't OK, try one more time? y/n ___ ")
+                val reply: String = readLine()?.uppercase() ?: "N"
+                println("REPLY: [$reply]")
+                one_more_time = if(reply=="Y") true else false
+            }
+        } while(saved!="OK" && one_more_time==true)
     }
     
 }

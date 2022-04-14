@@ -1,11 +1,6 @@
 import java.io.File
 import java.lang.Exception
-import java.net.URI
-import java.net.http.HttpClient
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse
-import java.time.Duration
-import java.util.concurrent.TimeUnit
+
 
 // utilities
 
@@ -32,4 +27,16 @@ fun unEscapeUnicode(txt: String): String {
     return ret
 }
 
+fun readFile(pathfile: String): String {
+    // returns a content of the file
+    var txt = ""
+    try {
+        val f = File(pathfile)
+        txt = f.readText()
+    } catch(ex: Exception) {
+        println("ERROR: " + ex)
+        return "ERROR"
+    }
+    return txt.trim()
+}
 

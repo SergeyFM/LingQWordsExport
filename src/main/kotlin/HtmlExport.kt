@@ -14,7 +14,7 @@ fun saveToHTMLfile(data_full: List<Word>, pathfile_: String): String {
     val chunk_size = data_full.size/times+1
     var current_part=0
     var return_status = "OK"
-    data_full.sortedBy{it.w.uppercase()}.chunked(chunk_size) {data->
+    data_full.sortedBy{it.word.uppercase()}.chunked(chunk_size) { data->
         current_part++
         try {
             val added_part_number = if(times>1) "$current_part" else ""
@@ -24,13 +24,13 @@ fun saveToHTMLfile(data_full: List<Word>, pathfile_: String): String {
             the_file.printWriter().use {out->
                 out.println(head)
                 data.forEach {word->
-                    val mp3file = wordToFilename(word.w, ".mp3")
-                    val picfile = wordToFilename(word.w, ".jpeg")
-                    val line = "<tr><th>${word.w}</th> \n" +
+                    val mp3file = wordToFilename(word.word, ".mp3")
+                    val picfile = wordToFilename(word.word, ".jpeg")
+                    val line = "<tr><th>${word.word}</th> \n" +
                             "\t<th><audio controls><source src=\"..\\mp3\\$mp3file\"></auio></th> \n" +
                             "\t<th><img src=\"..\\pic\\$picfile\"></img></th> \n" +
-                            "\t<th class=t>${word.t}</th><th class=e>\n" +
-                            "\t<th class=e>${word.f}</th>\n</tr>"
+                            "\t<th class=t>${word.translation}</th><th class=e>\n" +
+                            "\t<th class=e>${word.fragment}</th>\n</tr>"
                     out.println(line)
                 }
                 out.println(tail)

@@ -30,14 +30,15 @@ fun downloadGooleAudio(pathfile: String, lang_code: String, the_word_: String, r
             .connectTimeout(Duration.ofSeconds(10))
             .build()
         val request = HttpRequest.newBuilder()
-            .timeout(Duration.ofSeconds(5))
+            .timeout(Duration.ofSeconds(10))
             .uri(URI.create(gURL))
             .build()
         val response = client.send(request, HttpResponse.BodyHandlers.ofFile(f.toPath()))
         print("▓")
         return if(response.statusCode()==200) "OK" else "NOT OK"
     } catch(ex: Exception) {
-        println("\nERROR: [$the_word] " + ex)
+        //println("\nERROR: [$the_word] " + ex)
+        print("†")
         return "FAILED"
     }
 }
