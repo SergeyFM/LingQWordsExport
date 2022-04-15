@@ -1,0 +1,1 @@
+This folder contains word-list in html format.
