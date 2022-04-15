@@ -36,7 +36,7 @@ fun main(args : Array<String>) {
         print("Read $pathfile...")
         loadWordsFromFile(pathfile)
     }
-    println(" ${my_words.size} words")
+    println(" -> ${my_words.size} words")
    
    // --------------------------------- Fix word's capitalization ------------------------------------------------------
     val transf_words: List<Word> = if(settings["transform_words"]=="yes") {
