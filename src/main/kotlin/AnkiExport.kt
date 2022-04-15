@@ -22,8 +22,8 @@ fun saveToAnkiFile(data: List<Word>, pathfile: String): String {
                         ""   + word +
                         "\t" + translation +
                         "\t" + fragment +
-                        "\t [sound:" + wordToFilename(word,".mp3") + "]" +
-                        "\t <img src='" + wordToFilename(word,".jpeg") + "'>"
+                        "\t [sound:mp3\\" + wordToFilename(word,".mp3") + "]" +
+                        "\t <img src=\"pic\\" + wordToFilename(word,".jpeg") + "\">"
                 }
                 out.println(the_line)
             }
