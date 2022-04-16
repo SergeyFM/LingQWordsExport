@@ -21,7 +21,7 @@ fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, the_
                 return "EXISTS"
             }
         }
-        
+        f.createNewFile() // <--- if other instances are working, they'll see that the file is being worked on
         TimeUnit.MILLISECONDS.sleep( (1L..50L).random() ) // <--- random delay
         
         //------------------ get the link to a pic --------

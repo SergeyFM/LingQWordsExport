@@ -22,7 +22,7 @@ fun downloadGooleAudio(pathfile: String, lang_code: String, the_word_: String, r
                 return "EXISTS"
             }
         }
-        
+        f.createNewFile() // <--- if other instances are working, they'll see that the file is being worked on
         TimeUnit.MILLISECONDS.sleep( (1L..50L).random() ) // <--- random delay
         
         val client = HttpClient.newBuilder()
