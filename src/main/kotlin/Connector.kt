@@ -88,7 +88,7 @@ fun getListOfWords(cnn: Connection, lang_code: String, pages_limit: Int): List<W
     return words
 }
 
-fun transformWords(words: List<Word>): List<Word> {
+fun transformWords(words: List<Word>): Pair<List<Word>,Int> {
     // take the words from example sentences, for LingQ is case-insensitive
     var counter = 0
     val transformed_words = words.map {word->
@@ -98,7 +98,7 @@ fun transformWords(words: List<Word>): List<Word> {
         Word(new_word,word.translation,word.fragment,word.status,word.numOfWords)
     }
     println(" $counter changed. ")
-    return transformed_words
+    return Pair(transformed_words,counter)
 }
 
 private fun takeWordFromSentence(w:String, s:String): String {

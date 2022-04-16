@@ -40,3 +40,12 @@ fun readFile(pathfile: String): String {
     return txt.trim()
 }
 
+fun fileExists(pathfile: String): Boolean {
+    try {
+    val f = File(pathfile)
+    return f.exists()
+    } catch (ex: Exception) {
+        println("ERROR checking if file exists. [$pathfile] $ex")
+        return false
+    }
+}

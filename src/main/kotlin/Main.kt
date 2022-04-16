@@ -28,24 +28,25 @@ fun main(args : Array<String>) {
         else println("\n" + languages.map{" > $it"}.joinToString("\n"))
     }
     
-    // --------------------------------- Download words definitions ----------------------------------------------------
-    val my_words: List<Word> = if(settings["words_src"]=="lingq") {
-        print("Download words from LingQ, pages: ")
-        getListOfWords(cnn_attr,lang_code,settings["max_pages"].toInt())
-    } else {
+    // --------------------------------- Download or read words definitions --------------------------------------------
+    val file_already_exists = fileExists(pathfile)
+    val my_words: List<Word> = if(file_already_exists) {
         print("Read $pathfile...")
         loadWordsFromFile(pathfile)
+    } else {
+        print("Download words from LingQ, pages: ")
+        getListOfWords(cnn_attr,lang_code,settings["max_pages"].toInt())
     }
     println(" -> ${my_words.size} words")
    
    // --------------------------------- Fix word's capitalization ------------------------------------------------------
-    val transf_words: List<Word> = if(settings["transform_words"]=="yes") {
+    val (transf_words: List<Word>, transf_result: Int) = if(settings["transform_words"]=="yes") {
         print("Get words from the example sentences...")
         transformWords(my_words)
-    } else my_words
+    } else Pair(my_words,0)
     
     // --------------------------------- Save words to a *.txt file ----------------------------------------------------
-    if(settings["save_results_to_file"]=="yes") {
+    if(!file_already_exists || transf_result>0) { // if no file yet or data was changed
         var one_more_time = false
         do {
             print("Save to $pathfile... ")
