@@ -1,5 +1,6 @@
 import java.io.File
 import java.lang.Exception
+import kotlin.system.exitProcess
 
 class Config (val path: String) {
     // reads config.ini
@@ -10,13 +11,13 @@ class Config (val path: String) {
             val f = File("$path\\config.ini")
             txt = f.readText()
         } catch(ex: Exception) {
-            println("ERROR: " + ex.message)
-            System.exit(-1)
+            println("ERROR: $ex")
+            exitProcess(-1)
         }
         ini = txt.split("\n").filter{"=" in it}.mapNotNull{line->
             val two = line.split("=")
             if(two.first().length>0)
-                Pair(two.first().trim(),two.last().trim())
+                Pair(two.first().trim(),two.last().trim().takeWhile{it !in " '"})
             else null
         }.toMap().toMutableMap()
         // get my test api key
