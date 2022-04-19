@@ -9,7 +9,10 @@ fun main(args : Array<String>) {
     
     // --------------------------------- Read settings -----------------------------------------------------------------
     println("Working Directory: $path")
-    println("Settings from config.ini: \n" + settings.ini.map{(k,v)-> if(k=="APIKey") " > $k = ***" + v.takeLast(10) else " > $k = $v"}.joinToString("\n"))
+    println("Settings from config.ini: \n" +
+            settings.ini.map{
+                    (k,v)-> if(k=="APIKey") " > $k = ***" + v.takeLast(10) else " > $k = $v"
+            }.joinToString("\n"))
     val cnn_attr = Connection(settings["connectionString"], settings["APIKey"])
     val file = settings["file_name"]
     val pathfile = "$path\\$file"
