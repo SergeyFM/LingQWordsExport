@@ -32,15 +32,29 @@ fun main(args : Array<String>) {
     }
     
     // --------------------------------- Download or read words definitions --------------------------------------------
+    // download_mode= 'download and process "all" words, or only "update", or only from "local" file
+    val download_mode = settings["download_mode"]
+    // read a file of already downloaded words
     val file_already_exists = fileExists(pathfile)
-    val my_words: List<Word> = if(file_already_exists) {
+    val file_words: List<Word> = if(download_mode!="all" && file_already_exists) {
         print("Read $pathfile...")
         loadWordsFromFile(pathfile)
+    }  else listOf<Word>()
+    if(file_words.isNotEmpty()) println(" ${file_words.size} words") else println("")
+    
+    // download new or all words
+    val my_words: List<Word> = if(download_mode=="local") {
+        print("Process words from the file: ")
+        file_words // if "local" we process all the words from a file
+    } else if(download_mode=="update") {
+        print("Download only new words from LingQ, pages: ")
+        getListOfWords(cnn_attr,lang_code,settings["max_pages"].toInt(),file_words)
     } else {
         print("Download words from LingQ, pages: ")
         getListOfWords(cnn_attr,lang_code,settings["max_pages"].toInt())
     }
-    println(" -> ${my_words.size} words")
+    println("${my_words.size} words")
+    
    
    // --------------------------------- Fix word's capitalization ------------------------------------------------------
     val (transf_words: List<Word>, transf_result: Int) = if(settings["transform_words"]=="yes") {
@@ -48,12 +62,14 @@ fun main(args : Array<String>) {
         transformWords(my_words)
     } else Pair(my_words,0)
     
+    
     // --------------------------------- Save words to a *.txt file ----------------------------------------------------
-    if(!file_already_exists || transf_result>0) { // if no file yet or data was changed
+    if(transf_words.size>0 && transf_words.size!=file_words.size || transf_result>0) {
+        val all_words = if(download_mode=="local") transf_words.distinctWords() else (file_words + transf_words).distinctWords()
         var one_more_time = false
         do {
-            print("Save to $pathfile... ")
-            val saved = saveFile(transf_words,pathfile)
+            print("\nSave " + all_words.size + " words  to $pathfile... ")
+            val saved = saveFile(all_words,pathfile)
             println(saved)
             if(saved=="Nothing") break
             if(saved!="OK") {
@@ -65,10 +81,11 @@ fun main(args : Array<String>) {
         } while(saved!="OK" && one_more_time==true)
     }
     
+    
     // --------------------------------- Download mp3 files ------------------------------------------------------------
     if(settings["download_mp3s"]=="yes") {
         val MAX_ATTEMPTS = 3
-        print("Download mp3 for words... ")
+        print("\nDownload mp3... ")
         var current_letter = ""
         var saved_files_counter = 0
         var existing_files_counter = 0
@@ -97,7 +114,7 @@ fun main(args : Array<String>) {
     if(settings["download_pics"]=="yes") {
         val MAX_ATTEMPTS = 3
         val engine = settings["download_pics_from"]
-        print("Download pictures for words ($engine)... ")
+        print("\nDownload pictures ($engine)... ")
         var current_letter = ""
         var saved_files_counter = 0
         var existing_files_counter = 0
@@ -126,7 +143,8 @@ fun main(args : Array<String>) {
     if(settings["generate_html"]=="yes") {
         val SPLIT_LIMIT = 10000
         val html_filename = settings["file_name_html"]
-        print("Generate HTML file $html_filename ... ")
+        val words_num = transf_words.size
+        print("\nSave $words_num words to the HTML file $html_filename ... ")
         if(transf_words.size>SPLIT_LIMIT) {
             println(" \n there are too many words, html file will be split:")
             val first_letters = transf_words.mapNotNull{it.word.firstOrNull()?.uppercaseChar()}.distinct().sorted().filter{it.isLetter()}
@@ -151,7 +169,7 @@ fun main(args : Array<String>) {
         val words_num = transf_words.size
         val anki_file = "$path\\anki\\" + settings["file_name_anki"]
         do {
-            print("Save $words_num words to an Anki-file $pathfile... ")
+            print("\nSave $words_num words to the Anki-file $pathfile... ")
             val saved = saveToAnkiFile(transf_words,anki_file)
             println(saved)
             if(saved=="Nothing") break

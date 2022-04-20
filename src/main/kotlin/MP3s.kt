@@ -12,7 +12,8 @@ import java.util.concurrent.TimeUnit
 fun downloadGooleAudio(pathfile: String, lang_code: String, the_word_: String, rewrite: Boolean = true): String {
     // downloads audio data from google.translate to a file
     val the_word = the_word_.replace(" ","%20")
-    val gURL = "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=$the_word&tl=$lang_code&client=tw-ob"
+    val correct_lang_code = languageCodeLingQtoGoogle(lang_code)
+    val gURL = "https://translate.google.com.vn/translate_tts?ie=UTF-8&q=$the_word&tl=$correct_lang_code&client=tw-ob"
     try {
         val f = File(pathfile)
         if(f.exists()) {

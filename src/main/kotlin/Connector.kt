@@ -22,6 +22,8 @@ data class Word (
         .map{it.get(this).toString()}.joinToString("\t")
 }
 
+fun List<Word>.distinctWords(): List<Word> = this.distinctBy{it.word.uppercase()}
+
 fun isConnectionOK(cnn: Connection): Boolean {
         try {
         val client = HttpClient.newBuilder().build()
@@ -57,14 +59,15 @@ fun getListOfLanguages(cnn: Connection): List<String> {
     }
 }
 
-fun getListOfWords(cnn: Connection, lang_code: String, pages_limit: Int): List<Word> {
+fun getListOfWords(cnn: Connection, lang_code: String, pages_limit: Int, existing_words: List<Word> = listOf()): List<Word> {
     // returns the list of words from LingQ: Word, Translation, Status
     if(pages_limit<1) return listOf<Word>()
+    val existing_w = existing_words.map{it.word.uppercase()}
     val words = mutableListOf<Word>()
     val client = HttpClient.newBuilder().build()
     for(page in (1..pages_limit)) {
         val request = HttpRequest.newBuilder()
-            .uri(URI.create(cnn.connectionString+"v2/$lang_code/cards/?page_size=25&page=$page"))
+            .uri(URI.create(cnn.connectionString+"v2/$lang_code/cards/?page_size=25&sort=date&page=$page"))
             .header("Authorization","Token "+cnn.APIKey)
             .header("Content-Type", "application/json; charset=utf-8")
             .build()
@@ -72,6 +75,8 @@ fun getListOfWords(cnn: Connection, lang_code: String, pages_limit: Int): List<W
         val ret = response.body()
         if("""{"detail":"Invalid page."}""" in ret || ret.length<30) break
         print("|$page" + if(page%23==0) "\n" else "")
+        //print("|$page\n" )
+        var word_already_exists = false
         ret.replace("\t"," ").split("\"pk\":").filter{"text" in it}.forEach {w_def->
             val term = unEscapeUnicode(getJSONproperty("term",w_def)).trim()
             val new_word = Word(
@@ -81,8 +86,14 @@ fun getListOfWords(cnn: Connection, lang_code: String, pages_limit: Int): List<W
                 getJSONproperty("status",w_def).toIntOrNull()?:0,
                 term.count{it==' '}+1
             )
-            if(new_word.word.length>0) words += new_word
+            if(new_word.word.length>0) {
+                //print(new_word.word.uppercase() in existing_w)
+                //println(" " + new_word.word)
+                if(new_word.word.uppercase() in existing_w) word_already_exists = true
+                else words += new_word
+            }
         }
+        if(word_already_exists) break
     }
     print("|")
     return words
@@ -94,7 +105,10 @@ fun transformWords(words: List<Word>): Pair<List<Word>,Int> {
     val transformed_words = words.map {word->
         val word_to_try = replaceSomeCharacters(word.word)
         val new_word = takeWordFromSentence(word_to_try,word.fragment)
-        if(word.word!=new_word) counter++
+        if(word.word!=new_word) {
+            counter++
+            println(word.word + "!=" + new_word)
+        }
         Word(new_word,word.translation,word.fragment,word.status,word.numOfWords)
     }
     println(" $counter changed. ")
@@ -130,4 +144,14 @@ fun getLanguageByCode(lang_code: String): String = mapOf(
     "fr" to "French", "de" to "German", "es" to "Spanish", "it" to "Italian", "ja" to "Japanese",
     "ko" to "Korean", "zh" to "Chinese", "pt" to "Portuguese", "ru" to "Russian", "sv" to "Swedish",
     "hy" to "Armenian", "is" to "Icelandic"
+)[lang_code]?:lang_code
+
+fun languageCodeLingQtoGoogle(lang_code: String) = mapOf(
+        "he" to "iw",
+        "zh-t" to "zh-TW",
+        "hk" to "zh-TW", //Cantonese is not supported by Google translate
+        "srp" to "sr",
+        "hrv" to "hr",
+        "zh" to "zh-CN",
+        "pt" to "pt-PT"
 )[lang_code]?:lang_code
