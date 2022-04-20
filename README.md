@@ -11,10 +11,11 @@ In addition, pictures and audio are automatically downloaded.
 With this data the application can make html learning pages and anki files.
 
 1) Make sure you have **Java 11+ installed**. Use "Java Downloads.url" to get the distributive.
-
+<br><br>
 2) **Edit config.ini**: <br>
 APIKey=   'your LingQ key, use "LingQ API Key.url" to get it <br>
 lang_code=de 'language code, run app to see all available codes <br>
+download_mode=local 'download and process "all" words, or only "update", or only from "local" file <br>
 display_languages=yes 'displays a user's languages list if "yes" <br>
 transform_words=yes 'searches for a word in an example sentence if "yes" <br>
 download_mp3s=yes 'save google-translate mp3s for each word <br>
@@ -27,8 +28,8 @@ connectionString=https://www.lingq.com/api/ 'LingQ API URL <br>
 file_name=lingq_words.txt 'a file to save the words to <br>
 file_name_html=lingq_words.html 'to html folder <br>
 file_name_anki=lingq_words.tab 'to anki folder <br>
-
-4) **Run LingQWordsExport_RUN.bat** (displays Java version and runs the app).
+<br>
+3) **Run LingQWordsExport_RUN.bat** (displays Java version and runs the app).
 
 A resulting file can be imported in Excel - use UTF-8 charset, tab-separated. 
 To test it all, I recommend running the app once with max_pages set to 2. 
@@ -52,7 +53,7 @@ Next step is to import a file with words to Anki. The file contains following fi
    * Example
    * Audio
    * Image
-
+<br><br>
 8) **Enjoy**.
 
 I tested this all on a Windows 10 machine. There should be no particular problems running it on other platforms, please let me know how it goes for you. <br>

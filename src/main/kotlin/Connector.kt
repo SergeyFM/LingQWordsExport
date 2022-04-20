@@ -90,7 +90,7 @@ fun getListOfWords(cnn: Connection, lang_code: String, pages_limit: Int, existin
                 //print(new_word.word.uppercase() in existing_w)
                 //println(" " + new_word.word)
                 if(new_word.word.uppercase() in existing_w) word_already_exists = true
-                else words += new_word
+                else {words += new_word; word_already_exists = false}
             }
         }
         if(word_already_exists) break
@@ -107,7 +107,7 @@ fun transformWords(words: List<Word>): Pair<List<Word>,Int> {
         val new_word = takeWordFromSentence(word_to_try,word.fragment)
         if(word.word!=new_word) {
             counter++
-            println(word.word + "!=" + new_word)
+            //println(word.word + "!=" + new_word)
         }
         Word(new_word,word.translation,word.fragment,word.status,word.numOfWords)
     }

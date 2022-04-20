@@ -1,5 +1,7 @@
 import java.io.File
 import java.lang.Exception
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 // utilities
@@ -50,3 +52,9 @@ fun fileExists(pathfile: String): Boolean {
     }
 }
 
+fun today(): String {
+    // returns today date as "2022-04-22"
+    val now = LocalDateTime.now()
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    return now.format(formatter)
+}

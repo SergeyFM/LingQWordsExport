@@ -3,13 +3,13 @@ val settings = Config(path)
 
 fun main(args : Array<String>) {
     
-    println("\n   -=< LingQ Words Export >=-   \n")
+    println("\n   -=< LingQ Words Export >=-  ")
     
     if(args.isNotEmpty()) println("No args accepted, use config.ini")
     
     // --------------------------------- Read settings -----------------------------------------------------------------
-    println("Working Directory: $path")
-    println("Settings from config.ini: \n" +
+    println("\nWorking Directory: $path")
+    println("\nSettings from config.ini: \n" +
             settings.ini.map{
                     (k,v)-> if(k=="APIKey") " > $k = ***" + v.takeLast(10) else " > $k = $v"
             }.joinToString("\n"))
@@ -19,13 +19,13 @@ fun main(args : Array<String>) {
     val lang_code = settings["lang_code"]
     
     // --------------------------------- Test connection to LingQ API --------------------------------------------------
-    print("Test connection ... ")
+    print("\nTest connection ... ")
     if(isConnectionOK(cnn_attr)) println("OK")
     else {println("SOMETHING WRONG!")}
 
     // --------------------------------- Display a list of languages ---------------------------------------------------
     if(settings["display_languages"]=="yes") {
-        print("LingQ languages and known words: ")
+        print("\nLingQ languages and known words: ")
         val languages = getListOfLanguages(cnn_attr)
         if(languages.size==0) println(" NONE")
         else println("\n" + languages.map{" > $it"}.joinToString("\n"))
@@ -37,31 +37,32 @@ fun main(args : Array<String>) {
     // read a file of already downloaded words
     val file_already_exists = fileExists(pathfile)
     val file_words: List<Word> = if(download_mode!="all" && file_already_exists) {
-        print("Read $pathfile...")
+        print("\nRead $pathfile...")
         loadWordsFromFile(pathfile)
     }  else listOf<Word>()
     if(file_words.isNotEmpty()) println(" ${file_words.size} words") else println("")
     
     // download new or all words
     val my_words: List<Word> = if(download_mode=="local") {
-        print("Process words from the file: ")
+        print("\nProcess words from the file:")
         file_words // if "local" we process all the words from a file
     } else if(download_mode=="update") {
-        print("Download only new words from LingQ, pages: ")
+        print("\nDownload only new words from LingQ, pages: ")
         getListOfWords(cnn_attr,lang_code,settings["max_pages"].toInt(),file_words)
-    } else {
-        print("Download words from LingQ, pages: ")
+    } else if(download_mode=="all"){
+        print("\nDownload words from LingQ, pages: ")
         getListOfWords(cnn_attr,lang_code,settings["max_pages"].toInt())
+    } else {
+        println("\nParameter download_mode is set to unknown value $download_mode")
+        listOf<Word>()
     }
-    println("${my_words.size} words")
-    
+    println(" ${my_words.size} words")
    
    // --------------------------------- Fix word's capitalization ------------------------------------------------------
-    val (transf_words: List<Word>, transf_result: Int) = if(settings["transform_words"]=="yes") {
-        print("Get words from the example sentences...")
+    val (transf_words: List<Word>, transf_result: Int) = if(settings["transform_words"]=="yes" && my_words.isNotEmpty()) {
+        print("\nGet words from the example sentences...")
         transformWords(my_words)
     } else Pair(my_words,0)
-    
     
     // --------------------------------- Save words to a *.txt file ----------------------------------------------------
     if(transf_words.size>0 && transf_words.size!=file_words.size || transf_result>0) {
@@ -142,7 +143,8 @@ fun main(args : Array<String>) {
     //--------------------------------- Generate HTML file -------------------------------------------------------------
     if(settings["generate_html"]=="yes") {
         val SPLIT_LIMIT = 10000
-        val html_filename = settings["file_name_html"]
+        var html_filename = settings["file_name_html"]
+        if(download_mode=="update") html_filename = today()+"_update_"+html_filename
         val words_num = transf_words.size
         print("\nSave $words_num words to the HTML file $html_filename ... ")
         if(transf_words.size>SPLIT_LIMIT) {
@@ -167,10 +169,12 @@ fun main(args : Array<String>) {
     if(settings["generate_anki"]=="yes") {
         var one_more_time = false
         val words_num = transf_words.size
-        val anki_file = "$path\\anki\\" + settings["file_name_anki"]
+        var anki_file = settings["file_name_anki"]
+        if(download_mode=="update") anki_file = today()+"_update_"+anki_file
+        val anki_pathfile = "$path\\anki\\" + anki_file
         do {
-            print("\nSave $words_num words to the Anki-file $pathfile... ")
-            val saved = saveToAnkiFile(transf_words,anki_file)
+            print("\nSave $words_num words to the Anki-file $anki_pathfile... ")
+            val saved = saveToAnkiFile(transf_words,anki_pathfile)
             println(saved)
             if(saved=="Nothing") break
             if(saved!="OK") {
