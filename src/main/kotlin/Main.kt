@@ -88,7 +88,7 @@ fun main(args : Array<String>) {
     
     // --------------------------------- Download mp3 files ------------------------------------------------------------
     if(settings["download_mp3s"]=="yes") {
-        val MAX_ATTEMPTS = 3
+        val MAX_ATTEMPTS = 2
         print("\nDownload mp3... ")
         var current_letter = ""
         var saved_files_counter = 0
@@ -116,7 +116,7 @@ fun main(args : Array<String>) {
     
     // --------------------------------- Download pictures -------------------------------------------------------------
     if(settings["download_pics"]=="yes") {
-        val MAX_ATTEMPTS = 3
+        val MAX_ATTEMPTS = 2
         val engine = settings["download_pics_from"]
         print("\nDownload pictures ($engine)... ")
         var current_letter = ""

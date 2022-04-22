@@ -14,14 +14,14 @@ fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, the_
     // downloads a first picture for the word from google images
     try {
         val f = File(pathfile)
-        if(f.exists()) {
-            if(rewrite) f.delete()
-            else {
+        val MINIMUM_FILE_SIZE = 300L // if the recieved file too small, we'd return "too small"
+        if(!rewrite) {
+            if(f.exists() && f.length()==0L || f.length()>MINIMUM_FILE_SIZE) {
                 print("░")
                 return "EXISTS"
             }
         }
-        f.createNewFile() // <--- if other instances are working, they'll see that the file is being worked on
+        f.createNewFile() // <--- a zero-length file. if other instances are working, they'll see that the file is being worked on
         TimeUnit.MILLISECONDS.sleep( (1L..50L).random() ) // <--- random delay
         
         //------------------ get the link to a pic --------
@@ -77,6 +77,14 @@ fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, the_
             .uri(URI.create(pic_link))
             .build()
         val fresponse = fclient.send(frequest, HttpResponse.BodyHandlers.ofFile(f.toPath()))
+        
+        // check the filesize
+        val filesize = f.length()
+        if(filesize<MINIMUM_FILE_SIZE) {
+            print("▪")
+            return "TOO SHORT"
+        }
+        
         print("▓")
         return if(fresponse.statusCode()==200) "OK" else "NOT OK"
     } catch(ex: Exception) {
