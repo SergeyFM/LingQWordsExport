@@ -29,7 +29,6 @@ fun saveFile(data: List<Any>, pathfile: String): String {
 
 fun loadWordsFromFile(pathfile: String): List<Word> {
     // parses a file of words into List<Word>
-    
     var txt = ""
     try {
         val f = File(pathfile)
@@ -38,13 +37,19 @@ fun loadWordsFromFile(pathfile: String): List<Word> {
         println("ERROR: " + ex.message)
         return listOf<Word>()
     }
-    val ret: List<Word> = txt.split("\n").mapNotNull {line->
-        val p = line.split("\t").map{it.trim()}
+    val ret: List<Word> = txt.split("\n").filter{it.length>4}.mapNotNull {line->
+        val p = line
+            .replaceSomeCharacters()
+            .split("\t")
+            .map{it.trim()}
         if(p.size==5) Word(
             p[0], p[1], p[2],
             p[3].toIntOrNull()?:0,
             p[4].toIntOrNull()?:0
-        ) else null
+        ) else {
+            println("WRONG line in $pathfile")
+            null
+        }
     }
     return ret
 }

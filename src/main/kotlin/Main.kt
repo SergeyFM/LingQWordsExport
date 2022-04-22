@@ -17,14 +17,18 @@ fun main(args : Array<String>) {
     val file = settings["file_name"]
     val pathfile = "$path\\$file"
     val lang_code = settings["lang_code"]
+    // download_mode= 'download and process "all" words, or only "update", or only from "local" file
+    val download_mode = settings["download_mode"]
     
     // --------------------------------- Test connection to LingQ API --------------------------------------------------
-    print("\nTest connection ... ")
-    if(isConnectionOK(cnn_attr)) println("OK")
-    else {println("SOMETHING WRONG!")}
+    if(download_mode!="local") {
+        print("\nTest connection ... ")
+        if(isConnectionOK(cnn_attr)) println("OK")
+        else {println("SOMETHING WRONG!")}
+    }
 
     // --------------------------------- Display a list of languages ---------------------------------------------------
-    if(settings["display_languages"]=="yes") {
+    if(settings["display_languages"]=="yes" && download_mode!="local") {
         print("\nLingQ languages and known words: ")
         val languages = getListOfLanguages(cnn_attr)
         if(languages.size==0) println(" NONE")
@@ -32,12 +36,11 @@ fun main(args : Array<String>) {
     }
     
     // --------------------------------- Download or read words definitions --------------------------------------------
-    // download_mode= 'download and process "all" words, or only "update", or only from "local" file
-    val download_mode = settings["download_mode"]
+
     // read a file of already downloaded words
     val file_already_exists = fileExists(pathfile)
     val file_words: List<Word> = if(download_mode!="all" && file_already_exists) {
-        print("\nRead $pathfile...")
+        print("\nRead $pathfile...\n")
         loadWordsFromFile(pathfile)
     }  else listOf<Word>()
     if(file_words.isNotEmpty()) println(" ${file_words.size} words") else println("")
@@ -161,7 +164,7 @@ fun main(args : Array<String>) {
         } else {
             val html_pathfile = "$path\\html\\" + html_filename
             val save_html_res = saveToHTMLfile(transf_words,html_pathfile)
-            println("$save_html_res")
+            println(save_html_res)
         }
     }
     

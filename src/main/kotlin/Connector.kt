@@ -31,7 +31,7 @@ fun isConnectionOK(cnn: Connection): Boolean {
             .timeout(Duration.ofSeconds(10))
             .uri(URI.create(cnn.connectionString+"v2/contexts/"))
             .header("Authorization",  "Token " + cnn.APIKey)
-            .build();
+            .build()
         val response = client.send(request, HttpResponse.BodyHandlers.ofString())
         val ret = response.body()
         return "knownWords" in ret
@@ -47,7 +47,7 @@ fun getListOfLanguages(cnn: Connection): List<String> {
     val request = HttpRequest.newBuilder()
         .uri(URI.create(cnn.connectionString+"v2/contexts/"))
         .header("Authorization",  "Token " + cnn.APIKey)
-        .build();
+        .build()
     val response = client.send(request, HttpResponse.BodyHandlers.ofString())
     val ret = response.body()
     return ret.split("{").filter{"knownWords" in it}
@@ -75,7 +75,6 @@ fun getListOfWords(cnn: Connection, lang_code: String, pages_limit: Int, existin
         val ret = response.body()
         if("""{"detail":"Invalid page."}""" in ret || ret.length<30) break
         print("|$page" + if(page%23==0) "\n" else "")
-        //print("|$page\n" )
         var word_already_exists = false
         ret.replace("\t"," ").split("\"pk\":").filter{"text" in it}.forEach {w_def->
             val term = unEscapeUnicode(getJSONproperty("term",w_def)).trim()
@@ -103,7 +102,7 @@ fun transformWords(words: List<Word>): Pair<List<Word>,Int> {
     // take the words from example sentences, for LingQ is case-insensitive
     var counter = 0
     val transformed_words = words.map {word->
-        val word_to_try = replaceSomeCharacters(word.word)
+        val word_to_try = word.word.replaceSomeCharacters()
         val new_word = takeWordFromSentence(word_to_try,word.fragment)
         if(word.word!=new_word) {
             counter++
@@ -127,24 +126,23 @@ private fun takeWordFromSentence(w:String, s:String): String {
     return s.substring(ind..w.length+ind-1)
 }
 
-private fun replaceSomeCharacters(w:String): String {
-    val to_replace = mapOf("ﬂ" to "fl", "%" to "")
-    return w.map {c->
-        to_replace["$c"]?:"$c"
-    }.joinToString("")
+fun String.replaceSomeCharacters(): String {
+    // replaces some problem characters
+    val to_replace = mapOf("ﬂ" to "fl", "%" to "", """\"""" to """"""", "…" to "...")
+    return to_replace.toList().fold(this){acc,(old,new)->acc.replace(old,new)}
 }
 
-fun getLanguageByCode(lang_code: String): String = mapOf(
-    "cs" to "Czech", "no" to "Norwegian", "tr" to "Turkish", "fi" to "Finnish",
-    "he" to "Hebrew", "ro" to "Romanian", "nl" to "Dutch", "el" to "Greek", "pl" to "Polish",
-    "eo" to "Esperanto", "la" to "Latin", "da" to "Danish", "uk" to "Ukrainian", "sk" to "Slovak",
-    "ms" to "Malay", "id" to "Indonesian", "zh-t" to "Chinese (Traditional)", "hk" to "Cantonese",
-    "gu" to "Gujarati", "bg" to "Bulgarian", "fa" to "Persian", "be" to "Belarusian", "ar" to "Arabic",
-    "srp" to "Serbian", "hrv" to "Croatian", "hu" to "Hungarian", "ca" to "Catalan", "en" to "English",
-    "fr" to "French", "de" to "German", "es" to "Spanish", "it" to "Italian", "ja" to "Japanese",
-    "ko" to "Korean", "zh" to "Chinese", "pt" to "Portuguese", "ru" to "Russian", "sv" to "Swedish",
-    "hy" to "Armenian", "is" to "Icelandic"
-)[lang_code]?:lang_code
+//fun getLanguageByCode(lang_code: String): String = mapOf(
+//    "cs" to "Czech", "no" to "Norwegian", "tr" to "Turkish", "fi" to "Finnish",
+//    "he" to "Hebrew", "ro" to "Romanian", "nl" to "Dutch", "el" to "Greek", "pl" to "Polish",
+//    "eo" to "Esperanto", "la" to "Latin", "da" to "Danish", "uk" to "Ukrainian", "sk" to "Slovak",
+//    "ms" to "Malay", "id" to "Indonesian", "zh-t" to "Chinese (Traditional)", "hk" to "Cantonese",
+//    "gu" to "Gujarati", "bg" to "Bulgarian", "fa" to "Persian", "be" to "Belarusian", "ar" to "Arabic",
+//    "srp" to "Serbian", "hrv" to "Croatian", "hu" to "Hungarian", "ca" to "Catalan", "en" to "English",
+//    "fr" to "French", "de" to "German", "es" to "Spanish", "it" to "Italian", "ja" to "Japanese",
+//    "ko" to "Korean", "zh" to "Chinese", "pt" to "Portuguese", "ru" to "Russian", "sv" to "Swedish",
+//    "hy" to "Armenian", "is" to "Icelandic"
+//)[lang_code]?:lang_code
 
 fun languageCodeLingQtoGoogle(lang_code: String) = mapOf(
         "he" to "iw",

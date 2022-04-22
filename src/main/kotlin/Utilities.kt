@@ -19,13 +19,16 @@ fun getJSONproperty(field: String, str: String): String {
 }
 
 fun unEscapeUnicode(txt: String): String {
-    val r = txt.split("\\u")
-    if(r.size==1) return txt
-    var ret = r[0] + (1..r.lastIndex).map {ind->
+    val r = txt
+        .replaceSomeCharacters()
+        .split("\\u")
+    if(r.size<2) return txt
+    val ret = r[0] + (1..r.lastIndex).map {ind->
         val n = r[ind].take(4)
         val d = n.toIntOrNull(16)
         if(d==null) r[ind] else "" + d.toChar() + r[ind].drop(4)
     }.joinToString("")
+    
     return ret
 }
 
