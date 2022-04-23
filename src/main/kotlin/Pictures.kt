@@ -14,7 +14,7 @@ fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, the_
     // downloads a first picture for the word from google images
     try {
         val f = File(pathfile)
-        val MINIMUM_FILE_SIZE = 300L // if the recieved file too small, we'd return "too small"
+        val MINIMUM_FILE_SIZE = 2500L // if the recieved file too small, we'd return "too small"
         if(!rewrite) {
             if(f.exists() && f.length()==0L || f.length()>MINIMUM_FILE_SIZE) {
                 print("░")
@@ -58,8 +58,8 @@ fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, the_
             else -> ret_body.split("<table class=").drop(1).filter{"<img class=" in it} //google
         }
         if(ret.size<1) {
-            print("X");
-            println("\nX: [$the_word_] [$the_word2_] [$gURL] [$the_header]")
+            print("▫") // no picture
+            //println("\nX: [$the_word_] [$the_word2_] [$gURL] [$the_header]")
             return "$the_word_: NO PICTURE"
         }
         
@@ -81,7 +81,7 @@ fun downloadPicture(pathfile: String, lang_code: String, the_word_: String, the_
         // check the filesize
         val filesize = f.length()
         if(filesize<MINIMUM_FILE_SIZE) {
-            print("▪")
+            print("▪") // the picture is too small
             return "TOO SHORT"
         }
         

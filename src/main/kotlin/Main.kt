@@ -116,7 +116,7 @@ fun main(args : Array<String>) {
     
     // --------------------------------- Download pictures -------------------------------------------------------------
     if(settings["download_pics"]=="yes") {
-        val MAX_ATTEMPTS = 2
+        val MAX_ATTEMPTS = 3
         val engine = settings["download_pics_from"]
         print("\nDownload pictures ($engine)... ")
         var current_letter = ""
@@ -132,7 +132,13 @@ fun main(args : Array<String>) {
             for(attempt in (1..MAX_ATTEMPTS)) {
                 if(attempt>1) print(attempt)
                 val pic_filename: String = wordToFilename(word.word,".jpeg")
-                val saved = downloadPicture("$path\\pic\\$pic_filename",lang_code,word.word,word.translation+" "+word.fragment,false,engine)
+                
+                val try_engine = if(attempt>1 && attempt%2==0) { // try another engine
+                    if(engine=="bing") "google" else "bing"
+                } else engine
+                
+                
+                val saved = downloadPicture("$path\\pic\\$pic_filename",lang_code,word.word,word.translation+" "+word.fragment,false,try_engine)
                 when(saved) {
                     "OK" -> {saved_files_counter++; break}
                     "EXISTS" -> {existing_files_counter++; break}
