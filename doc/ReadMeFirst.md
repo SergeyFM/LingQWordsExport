@@ -23,7 +23,7 @@ Now you can learn the words and sentences in Anki.
 3. Edit the `config.ini` file. Look below to see further details on configuration.
 4. Run `LingQWordsExport_RUN.bat`. It is a command line interface application, the batch file will first display a JAVA version, then a jar file will be launched.
 5. As all the activities are finished you should have output files in the corresponding folders. <br> /anki/ lingq_words.tab - you import this file into Anki <br> /html/ lingq_words.html - one or more files for web-browsers <br> /mp3/ *.mp3 - audio files for each word <br> /pic/ *.jpeg - image files, one for each word
-6. Now you can import data to Anki. The latest *.tab file contains words. `copy_img&mpr_to_anki_media.bat` copies all the media files to the Anki's `collection.media` folder (please set this folder in the file before use).
+6. Now you can import data to Anki. The latest *.tab file contains words. `copy_img&mpr_to_anki_media.bat` copies all the media files to the Anki's `collection.media` folder (please set this folder in the file before use). Import `LingQ words.apkg` to create initial note and cards (optional).
 
 
 ### How to configure the app?
@@ -47,3 +47,6 @@ All settings are saved in the `config.ini` file in the root application folder. 
 
 For starters you should add your LingQ API Key (get it [here](https://www.lingq.com/en/accounts/apikey/)) and set your language code. Codes mostly are the same as in Google-translate, but to be sure you can run the app to see the list of languages available to you. <br>
 You don't have to change anything else in the settings file in the standard use case.
+
+<br>
+Sergey Svistunov.
