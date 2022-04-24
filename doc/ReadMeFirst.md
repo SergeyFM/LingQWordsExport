@@ -9,7 +9,8 @@ I use LingQWordsExport daily and hope you'll find it useful too.
 ### How it works?
 
 The app connects to the [LingQ API](https://www.lingq.com/apidocs/index.html) to download the word definitions. Then it uses [Google-translate](https://translate.google.com/) services to get the sound of the word spoken out loud. And finally, the app fetches images for the words from Google or Bing. <br>
-There are certain peculiarities in how LingQ deals with words and sentences. One such peculiarity that annoys me the most is removal of letter's case information - all the words and sentences are saved in lowercase format. To fix that the app searches for the word in a given fragment and tries to restore the original word.
+There are certain peculiarities in how LingQ deals with words and sentences. One such peculiarity that annoys me the most is removal of letter's case information - all the words and sentences are saved in lowercase format, and it doesn't go well with German language:<br>
+_– essen (to eat) – das Essen (the food/the eating))_ <br> To fix this issue the app searches for the word in a given fragment and tries to restore the original word.
 
 ### What is the standard use case?
 

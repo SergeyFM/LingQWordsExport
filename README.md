@@ -1,28 +1,31 @@
 # LingQWordsExport
-Will export all your words from **LingQ** https://lingq.com
+Will export all your words from **LingQ** 
 to a tab-separated UTF-8 **text** file, **Html**, and **Anki**.
-
-THE APP IS UNDER ACTIVE DEVELOPMENT RIGHT NOW, EVERYTHING'S PROVIDED AS IS... <br>
 
 Look for the documentation in the [LingQWordsExport doc folder](https://github.com/SergeyFM/LingQWordsExport/tree/master/doc) .<br>
 
-Here is an application that can download word definitions from LingQ learning portal.
-The app can try to restore capitalization, which is important for German language:<br>
-    – essen (to eat) – das Essen (the food/the eating)) <br>
-In addition, pictures and audio are automatically downloaded.
-With this data the application can make html learning pages and anki files.
 
-1. Make sure you have **Java 11+ installed**
+The app connects to the [LingQ API](https://www.lingq.com/apidocs/index.html) to download the word definitions. Then it uses [Google-translate](https://translate.google.com/) services to get the sound of the word spoken out loud. And finally, the app fetches images for the words from Google or Bing. <br>
+There are certain peculiarities in how LingQ deals with words and sentences. One such peculiarity that annoys me the most is removal of letter's case information - all the words and sentences are saved in lowercase format, and it doesn't go well with German language:<br>
+_– essen (to eat) – das Essen (the food/the eating))_ <br> To fix this issue the app searches for the word in a given fragment and tries to restore the original word.
 
-2. **Edit config.ini**
+<br> If you want to try the application:
 
-3. **Run LingQWordsExport_RUN.bat** 
+1. Read the [documentation](https://github.com/SergeyFM/LingQWordsExport/tree/master/doc)
 
-4. Review **html files with words**
+2. Download the app
 
-5. **Import data to Anki**
+3. Make sure you have Java 11+ installed
 
-6. **Enjoy**
+4. Edit config.ini
+
+5. Run LingQWordsExport_RUN.bat 
+
+6. Review html files with words
+
+7. Import data to Anki
+
+8. Enjoy
 
 I tested this all on a Windows 10 machine. There should be no particular problems running it on other platforms, please let me know how it goes for you. <br>
 If the file with words (file_name) is found, it will be loaded, if not - the words will be downloaded from LingQ.
