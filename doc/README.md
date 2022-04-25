@@ -19,8 +19,8 @@ Now you can learn the words and sentences in Anki.
 
 ### How to run the application?
 
-1. Download the [app folder](https://github.com/SergeyFM/LingQWordsExport/tree/master/app). To start the app you need an application jar file, config.ini, and empty folders: anki, html, mp3 and pic.
-2. Make sure you have Java 11+ installed. Use `Java Downloads.url` to get the distributive.
+1. Download the app [LingQWordsExport.zip](https://github.com/SergeyFM/LingQWordsExport/raw/master/distr/LingQWordsExport.zip), unzip it. For the the app to launch correctly you need an application jar file, config.ini, and empty folders: anki, html, mp3 and pic.
+2. Make sure you have Java 11+ installed. Use `Java Downloads.url` to get the distributive ([download page](https://www.oracle.com/java/technologies/downloads/)).
 3. Edit the `config.ini` file. Look below to see further details on configuration.
 4. Run `LingQWordsExport_RUN.bat`. It is a command line interface application, the batch file will first display a JAVA version, then a jar file will be launched.
 5. As all the activities are finished you should have output files in the corresponding folders. <br> /anki/ lingq_words.tab - you import this file into Anki <br> /html/ lingq_words.html - one or more files for web-browsers <br> /mp3/ *.mp3 - audio files for each word <br> /pic/ *.jpeg - image files, one for each word
