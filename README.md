@@ -13,9 +13,9 @@ _– essen (to eat) – das Essen (the food/the eating))_ <br> To fix this issue
 
 1. Read the [documentation](https://github.com/SergeyFM/LingQWordsExport/tree/master/doc)
 
-2. Download the app
+2. Download the app: [LingQWordsExport.zip](https://github.com/SergeyFM/LingQWordsExport/raw/master/distr/LingQWordsExport.zip), unzip it.
 
-3. Make sure you have Java 11+ installed
+3. Make sure you have Java 11+ installed ([download page](https://www.oracle.com/java/technologies/downloads/))
 
 4. Edit config.ini
 
