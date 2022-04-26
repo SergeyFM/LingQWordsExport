@@ -1,7 +1,8 @@
 ## My daily routine.
 
-Here you can find a [documentation](doc/README.md) page. In this document I show my daily routine. First I read on LingQ and then study new words in Anki.
-After initial set up, it all takes only a few minutes.
+Here you can find a main [documentation](doc/README.md) page.
+In this document I show my daily routine: first I read on LingQ, then import and study new words in Anki.
+<br> After initial set up, importing takes only a few minutes.
 
 ### I read and mark words on LingQ.
 ![](a11.png)
@@ -25,11 +26,11 @@ Copy new media files to the Anki media folder.
 
 Open Anki. <br>
 ![](a28.png) <br>
-Click import, select what file to import, and in what deck. Allow HTML is checked.
+Click import, select what file to import, and in what deck. Allow HTML checkbox should be set on.
 ![](a29.png) <br>
 Importing complete! <br>
 ![](a30.png)
 
 ### Everything's ready! Don't' forget to sync data if you want it to be available on all your devices.
-
+![](a33.png)
 Sergey Svistunov.
