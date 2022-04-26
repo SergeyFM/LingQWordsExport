@@ -1,6 +1,6 @@
 ## My daily routine.
 
-You can find general info about the app [here](README.md). <br>
+Here you can find a [documentation](doc/README.md) page. <br>
 
 In this document I show my daily routine. First I read on LingQ and then study new words in Anki.
 
@@ -29,7 +29,7 @@ Open Anki. <br>
 ![](a28.png) <br>
 Click import, select what file to import, and in what deck. Allow HTML is checked.
 ![](a29.png) <br>
-Importing complete!
+Importing complete! <br>
 ![](a30.png)
 
 ### Everything's ready! Don't' forget to sync data if you want it to be available on all your devices.

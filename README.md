@@ -1,8 +1,8 @@
 # LingQWordsExport
-Will export all your words from **LingQ** 
+Will export all your words from **[LingQ](https://lingq.com)** 
 to a tab-separated UTF-8 **text** file, **Html**, and **Anki**.
 
-Look for the documentation in the [LingQWordsExport doc folder](https://github.com/SergeyFM/LingQWordsExport/tree/master/doc) .<br>
+Here you can find a [documentation](doc/README.md) page. Or jump right to my [my daily routine](MyDailyRoutine.md). <br>
 
 
 The app connects to the [LingQ API](https://www.lingq.com/apidocs/index.html) to download the word definitions. Then it uses [Google-translate](https://translate.google.com/) services to get the sound of the word spoken out loud. And finally, the app fetches images for the words from Google or Bing. <br>
