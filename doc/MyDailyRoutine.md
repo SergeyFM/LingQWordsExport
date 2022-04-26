@@ -1,9 +1,7 @@
 ## My daily routine.
 
-Here you can find a [documentation](doc/README.md) page. <br>
-
-In this document I show my daily routine. First I read on LingQ and then study new words in Anki.
-
+Here you can find a [documentation](doc/README.md) page. In this document I show my daily routine. First I read on LingQ and then study new words in Anki.
+After initial set up, it all takes only a few minutes.
 
 ### I read and mark words on LingQ.
 ![](a11.png)
