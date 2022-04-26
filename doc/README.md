@@ -26,6 +26,7 @@ Now you can learn the words and sentences in Anki.
 5. As all the activities are finished you should have output files in the corresponding folders. <br> /anki/ lingq_words.tab - you import this file into Anki <br> /html/ lingq_words.html - one or more files for web-browsers <br> /mp3/ *.mp3 - audio files for each word <br> /pic/ *.jpeg - image files, one for each word
 6. Now you can import data to Anki. The latest *.tab file contains words. `copy_img&mpr_to_anki_media.bat` copies all the media files to the Anki's `collection.media` folder (please set this folder in the file before use). Import `LingQ words.apkg` to create initial note and cards (optional).
 
+This is my [my daily routine](MyDailyRoutine.md). First I read on LingQ and then study new words in Anki.
 
 ### How to configure the app?
 
