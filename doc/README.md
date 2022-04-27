@@ -30,7 +30,7 @@ This is my [my daily routine](MyDailyRoutine.md). First I read on LingQ and then
 
 ### How to configure the app?
 
-Installation and configuration process is described here with screenshots. <br>
+Installation and configuration process is described [here](Installation.md) with screenshots. <br>
 Briefly speaking, all settings are saved in the `config.ini` file in the root application folder. <br>
 It contains the following: <br>
 - APIKey= &emsp;  'your LingQ key, use "LingQ API Key.url" to get it <br>

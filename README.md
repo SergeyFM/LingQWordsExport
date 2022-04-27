@@ -2,8 +2,9 @@
 Will export all your words from **[LingQ](https://lingq.com)** 
 to a tab-separated UTF-8 **text** file, **Html**, and **Anki**.
 
-Here you can find a [documentation](doc/README.md) page. 
-Or jump right to my [my daily routine](doc/MyDailyRoutine.md) with screenshots. <br>
+Here you can find a [documentation](doc/README.md) page.
+Installation and configuration process is described [here](doc/Installation.md) with screenshots. 
+Or you can jump right to [my daily routine](doc/MyDailyRoutine.md) page showing all the steps I do to get words from LingQ to Anki. <br>
 
 
 The app connects to the [LingQ API](https://www.lingq.com/apidocs/index.html) to download words and sentences definitions. Then it uses [Google-translate](https://translate.google.com/) service to get the sound of the word spoken out loud. And finally, the app fetches images for the words from Google or Bing. <br>
