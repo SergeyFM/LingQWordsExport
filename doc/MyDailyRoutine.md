@@ -1,6 +1,6 @@
 ## My daily routine.
 
-Here you can find a main [documentation](doc/README.md) page.
+Here you can find a main [documentation](doc/README.md) page. <br>
 In this document I show my daily routine: first I read on LingQ, then import and study new words in Anki.
 <br> After initial set up, importing takes only a few minutes.
 

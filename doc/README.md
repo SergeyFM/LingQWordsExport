@@ -19,7 +19,7 @@ Now you can learn the words and sentences in Anki.
 
 ### How to run the application?
 
-1. Download the app [LingQWordsExport.zip](https://github.com/SergeyFM/LingQWordsExport/raw/master/distr/LingQWordsExport.zip), unzip it. For the the app to launch correctly you need an application jar file, config.ini, and empty folders: anki, html, mp3 and pic.
+1. Download the app [LingQWordsExport.zip](https://github.com/SergeyFM/LingQWordsExport/raw/master/distr/LingQWordsExport.zip), unzip it. For the app to launch correctly you need an application jar file, config.ini, and empty folders: anki, html, mp3 and pic.
 2. Make sure you have Java 11+ installed. Use `Java Downloads.url` to get the distributive ([download page](https://www.oracle.com/java/technologies/downloads/)).
 3. Edit the `config.ini` file. Look below to see further details on configuration.
 4. Run `LingQWordsExport_RUN.bat`. It is a command line interface application, the batch file will first display a JAVA version, then a jar file will be launched.
@@ -30,7 +30,9 @@ This is my [my daily routine](MyDailyRoutine.md). First I read on LingQ and then
 
 ### How to configure the app?
 
-All settings are saved in the `config.ini` file in the root application folder. It contains the following: <br>
+Installation and configuration process is described here with screenshots. <br>
+Briefly speaking, all settings are saved in the `config.ini` file in the root application folder. <br>
+It contains the following: <br>
 - APIKey= &emsp;  'your LingQ key, use "LingQ API Key.url" to get it <br>
 - lang_code=de &emsp;'language code, run app to see all available codes <br>
 - download_mode=update &emsp;'download and process "all" words, or only "update", or only from "local" file <br>
@@ -47,7 +49,8 @@ All settings are saved in the `config.ini` file in the root application folder. 
 - file_name_html=lingq_words.html &emsp;'to html folder <br>
 - file_name_anki=lingq_words.tab &emsp;'to anki folder <br>
 
-For starters you should add your LingQ API Key (get it [here](https://www.lingq.com/en/accounts/apikey/)) and set your language code. Codes mostly are the same as in Google-translate, but to be sure you can run the app to see the list of languages available to you. <br>
+For starters, you should add your LingQ API Key (get it [here](https://www.lingq.com/en/accounts/apikey/)) and set your language code. 
+Codes mostly are the same as in Google-translate, but to be sure you can run the app to see the list of languages available to you. <br>
 You don't have to change anything else in the settings file in the standard use case.
 
 <br>
