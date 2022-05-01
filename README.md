@@ -7,12 +7,17 @@ Read the [documentation](doc/README.md) page. <br>
 Install and configure the app as described [here](doc/Installation.md). <br>
 Or you can jump right to [my daily routine](doc/MyDailyRoutine.md) page showing all the steps I make getting the words from LingQ to Anki. <br>
 
-
 The app connects to the [LingQ API](https://www.lingq.com/apidocs/index.html) and downloads words and sentences. Then it uses Google-translate service to get the sound of the word spoken out loud. And finally, the app fetches images from Google or Bing. <br>
 There are certain peculiarities in how LingQ deals with words and sentences. One such thing is removal of letter's case information - all the words and sentences are saved in lowercase format, and it doesn't go well with German language:<br>
 _– essen (to eat) – das Essen (the food/the eating))_ <br> 
 To fix this issue the app searches for the word in a given fragment and tries to restore the original word.
 <br> <br>
+You will have your words ready for review, and you can easily print them out:
+![](doc/a22.png) <br>
+And Anki will help learning them:
+![](doc/a33.png)
+
+<br>
 Repository contains following folders: 
  * app - the application ready for run
  * distr - the app folder put in an easy downloadable archive
