@@ -2,8 +2,9 @@
 Will export all your words from **[LingQ](https://lingq.com)** 
 to a tab-separated UTF-8 **text** file, **Html**, and **Anki**.
 
-Here you can find the [documentation](doc/README.md) page.
-Installation and configuration process is described [here](doc/Installation.md) with screenshots. 
+Download the app: [LingQWordsExport.zip](https://github.com/SergeyFM/LingQWordsExport/raw/master/distr/LingQWordsExport.zip) <br>
+Read the [documentation](doc/README.md) page. <br>
+Install and configure the app as described [here](doc/Installation.md). <br>
 Or you can jump right to [my daily routine](doc/MyDailyRoutine.md) page showing all the steps I make getting the words from LingQ to Anki. <br>
 
 
