@@ -33,25 +33,23 @@ This is my [my daily routine](MyDailyRoutine.md). First I read on LingQ and then
 Installation and configuration process is described [here](Installation.md) with screenshots. <br>
 Briefly speaking, all settings are saved in the `config.ini` file in the root application folder. <br>
 It contains the following: <br>
-- APIKey= &emsp;  'your LingQ key, use "LingQ API Key.url" to get it <br>
-- lang_code=de &emsp;'language code, run app to see all available codes <br>
+- **APIKey**= &emsp;  'your LingQ key, use "LingQ API Key.url" to get it <br>
+- **lang_code**=de &emsp;'language code, run app to see all available codes <br>
 - download_mode=update &emsp;'download and process "all" words, or only "update", or only from "local" file <br>
 - display_languages=yes &emsp;'displays a user's languages list if "yes" <br>
-- transform_words=yes &emsp;'searches for a word in an example sentence if "yes" <br>
+- **transform_words**=yes &emsp;'searches for a word in an example sentence if "yes" <br>
 - download_mp3s=yes &emsp;'save google-translate mp3s for each word <br>
 - download_pics=yes &emsp;'get images from google or bing for each word <br>
 - generate_html=yes &emsp;'create html file with words, audio and pictures <br>
 - generate_anki=yes &emsp;'make a file that can be imported to Anki <br>
-- max_pages=20000 &emsp;'maximum pages that the app will read (25 words per page) <br>
+- **max_pages**=20000 &emsp;'maximum pages that the app will read (25 words per page) <br>
 - download_pics_from=google &emsp;'where to get pics from - google or bing <br>
 - connectionString=https://www.lingq.com/api/ &emsp;'LingQ API URL <br>
 - file_name=lingq_words.txt &emsp;'a file to save the words to <br>
 - file_name_html=lingq_words.html &emsp;'to html folder <br>
 - file_name_anki=lingq_words.tab &emsp;'to anki folder <br>
 
-For starters, you should add your LingQ API Key (get it [here](https://www.lingq.com/en/accounts/apikey/)) and set your language code. 
-Codes mostly are the same as in Google-translate, but to be sure you can run the app to see the list of languages available to you. <br>
-You don't have to change anything else in the settings file in the standard use case.
+For starters, you should add your LingQ API Key (get it [here](https://www.lingq.com/en/accounts/apikey/)) and set your language code. Set transform_words to no if you don't want the app to change the words in any way. Also, if you want to download only recent words from LingQ, you can set a limit with max_pages - one page is 25 words.<br>
 
 <br>
 Sergey Svistunov.
