@@ -1,5 +1,5 @@
 # LingQWordsExport
-Will export all your words from **[LingQ](https://lingq.com)** 
+Exports all your words from **[LingQ](https://lingq.com)** 
 to a tab-separated UTF-8 **text** file, **Html**, and **Anki**.
 
 You can download the app here: [LingQWordsExport.zip](https://github.com/SergeyFM/LingQWordsExport/raw/master/distr/LingQWordsExport.zip) <br>
@@ -17,6 +17,15 @@ You will have your words ready for review, and you can easily print them out: <b
 ![](doc/a22.png) <br> <br>
 And Anki will help learning them: <br>
 ![](doc/a33.png)
+
+## Some features
+* gets the words from LingQ
+* fixes capitalization issues (for German)
+* downloads pictures from google and bing
+* and google-translate audio for each word or sentence
+* gets all the words or only recently added words
+* exports to txt, html and anki
+
 
 ## GitHub repository
 There are following folders: 
