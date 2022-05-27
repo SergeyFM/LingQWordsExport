@@ -1,10 +1,10 @@
 ## Installation and configuration.
 
-Here you can find a main [documentation](doc/README.md) page. 
+Here you can find a main [documentation](README.md) page. 
 Or jump right to my [my daily routine](MyDailyRoutine.md) with screenshots. <br>
 
-In this document you'll learn how to install and configure the LingQWordsExport. 
-After initial set up, importing will take only a few minutes.
+In this document you'll see how to install and configure the LingQWordsExport. 
+After initial set up, importing will take only a few minutes and a few clicks.
 
 Here's what you have to do:
 
