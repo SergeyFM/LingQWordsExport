@@ -1,8 +1,8 @@
 ## My daily routine.
 
 Here you can find a main [documentation](README.md) page. <br>
-In this document I show my daily routine: first I read the news and my books in LingQ, then I import and study new words in Anki.
-<br> After initial set up, importing takes only a few minutes.
+In this document I show my daily routine: first I read on LingQ, then I import new words and sentences, and then study them in Anki.
+<br> After initial set up, importing takes only a few clicks.
 
 ### I read and mark words on LingQ.
 ![](a11.png)
