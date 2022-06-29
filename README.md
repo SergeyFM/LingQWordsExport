@@ -18,7 +18,7 @@ You will have your words ready for review, and you can easily print them out: <b
 And Anki will help learning them: <br>
 ![](doc/a33.png)
 
-## Some features
+## Selected features
 * gets the words from LingQ
 * fixes capitalization issues (for German)
 * downloads pictures from google and bing
@@ -30,7 +30,7 @@ And Anki will help learning them: <br>
 ## GitHub repository
 There are following folders: 
  * app - the application ready for run
- * distr - the app folder put in an easy downloadable archive
+ * distr - archived app folder [LingQWordsExport.zip](https://github.com/SergeyFM/LingQWordsExport/raw/master/distr/LingQWordsExport.zip)
  * doc - documentation folder
  * src/main/kotlin - source code
 
