@@ -55,8 +55,8 @@ If you want to try the application:
 
 Once set up, import takes a few minutes.
 
-I tested the application on a Windows 10 machine. There should be no particular problems running it on other platforms, please let me know how it goes for you. <br>
-You can run several instances of the app to download audio and images faster (I tried 4 in parallel).
+I tested the application on a Windows 10 machine. There should be no difficulties running it on other platforms, please let me know how it goes for you. <br>
+You can run several instances of the app to speed up audio and images download (I tried 4 in parallel).
 
 I'm open for suggestions and help. Any feedback is appreciated. <br>
 I wish y'all enormous success with language learning!
